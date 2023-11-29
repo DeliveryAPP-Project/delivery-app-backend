@@ -1,0 +1,34 @@
+[default]
+APP_NAME = "project"
+DATABASE = "sqlite"
+DEBUG = true
+SECRET_KEY = "548JM6@aK!pO|DN:US,xUG6zF52yZXP"
+SQLALCHEMY_DATABASE_URI = "sqlite:///db.sqlite"
+EXTENSIONS = [
+    "project.ext.restapi:init_app",
+    "project.ext.database:init_app"
+]
+
+[development]
+APP_NAME = "${secrets.development.APP_NAME}"
+DATABASE = "sqlite"
+DEBUG = "${secrets.development.DEBUG}"
+SECRET_KEY = "${secrets.development.SECRET_KEY}"
+DATABASE_URL = "${secrets.development.DATABASE_URL}"
+
+[testing]
+APP_NAME = "${secrets.testing.APP_NAME}"
+DATABASE = "sqlite"
+DEBUG = "${secrets.testing.DEBUG}"
+SECRET_KEY = "${secrets.testing.SECRET_KEY}"
+DATABASE_URL = "${secrets.testing.DATABASE_URL}"
+
+[production]
+APP_NAME = "project"
+DATABASE = "postgresql"
+DEBUG = "${secrets.development.DEBUG}"
+SECRET_KEY = "${secrets.production.SECRET_KEY}"
+POSTGRES_USER = "${secrets.production.POSTGRES_USER}"
+POSTGRES_PASSWORD = "${secrets.production.POSTGRES_PASSWORD}"
+POSTGRES_HOST = "${secrets.production.POSTGRES_HOST}"
+POSTGRES_DB = "${secrets.production.POSTGRES_DB}"

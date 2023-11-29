@@ -1,0 +1,63 @@
+
+     #####Opcional o uso dos comandos 'make'#####
+
+# Descrição dos comandos e atalhos na aplicação
+
+## Makefile
+     - Comandos sempre na raiz da aplicação:
+
+     - Sempre após a ativação do ambiente virtual
+
+
+##### Digitar no terminal primeiramente o tipo de ambiente que deseja e APP_NAME #####
+##### Exemplo:  export FLASK_APP=project + export FLASK_ENV=development #####
+
+## Inicializar a aplicação
+ - make up
+  - Comando que executa: python main.py inicializando a aplicação
+
+## Banco de dados - Usando flask-migrate
+ Após criar o model. -> Só executamos uma vez para inicializar a conexão
+  1 -> Primeiro comando, para inicializar o banco de dados
+  é o flask db init
+ 
+  2 -> Segundo comando, para criar a instancia sqlalchemy
+  é o flask db migrate
+
+  3 -> Terceiro comando, para criar as tabelas no banco de dados
+  é o flask db upgrade
+
+ - make db-init
+  - Comando que executa: flask db init (Inicializa a instancia sqlalchemy)
+
+ - make migrate
+  - Comando que executa: flask db migrate (executa as migrações das tabelas no db)
+
+ - make upgrade
+  - Comando que executa: flask db upgrade (conexão com db criando as tabelas)
+
+## Ambientes ENV e APP
+
+ - make env-default
+  - Executa os comandos:
+   - export FLASK_APP=project
+   - export FLASK_ENV=default
+   - python main.py
+
+ - make env-development
+  - Executa os comandos:
+   - export FLASK_APP=project
+   - export FLASK_ENV=development
+   - python main.py
+
+ - make env-testing
+  - Executa os comandos
+   - export FLASK_APP=project
+   - export FLASK_ENV=testing
+   - python main.py
+
+ - make env-production
+  - Executa os comandos:
+   - export FLASK_APP=project
+   - export FLASK_ENV=production
+   - python main.py
