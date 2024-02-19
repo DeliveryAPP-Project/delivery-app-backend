@@ -1,3 +1,8 @@
+"""
+Script de Gerenciamento do Flask
+
+"""
+
 import click
 from flask.cli import FlaskGroup
 
