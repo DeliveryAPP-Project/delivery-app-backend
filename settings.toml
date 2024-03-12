@@ -1,0 +1,32 @@
+[default]
+APP_NAME = "project"
+DATABASE = "sqlite"
+SECRET_KEY = "548JM6@aK!pO|DN:US,xUG6zF52yZXP"
+SQLALCHEMY_TRACK_MODIFICATIONS = false
+EXTENSIONS = [
+    "project.ext.restapi:init_app",
+    "project.ext.database:init_app"
+]
+
+[development]
+FLASK_ENV = "development"
+INCLUDES = ["default"]
+TEMPLATES_AUTO_RELOAD = true
+DEBUG = true
+SQLALCHEMY_DATABASE_URI = 'sqlite:///db.development.dynaconf.sqlite'
+
+[testing]
+FLASK_ENV = "testing"
+INCLUDES = ["default"]
+SQLALCHEMY_DATABASE_URI = "sqlite:///db.testing.sqlite"
+DEBUG = true
+
+[production]
+FLASK_ENV = "production"
+INCLUDES = ["default"]
+SQLALCHEMY_DATABASE_URI = "postgresql://slj_user:WEUOkN2UVuZzZdTRUcLHrCZA52pNSWPf@dpg-cms2j6821fec73civqtg-a.oregon-postgres.render.com/slj_database"
+
+[homologacao]
+FLASK_ENV = "homologacao"
+INCLUDES = ["default"]
+SQLALCHEMY_DATABASE_URI = "postgresql://hpnkbpae:k41SHz9huxu3zVgQhvjq7b7MXYv5n8gK@baasu.db.elephantsql.com/hpnkbpae"
