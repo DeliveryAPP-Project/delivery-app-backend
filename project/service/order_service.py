@@ -1,5 +1,5 @@
 from flask import abort
-
+from typing import Dict, Optional
 from project.ext.database import db
 from project.models.client_model import Client
 from project.models.order_model import Order
@@ -9,11 +9,11 @@ from project.models.restaurant_model import Restaurant
 from ..utils.twilio_utils import send_whatsapp_message
 
 
-def get_all_orders():
+def get_all_orders() -> list[Order]:
     return Order.query.all()
 
 
-def post_order(order_data):
+def post_order(order_data: dict) -> tuple[dict, int]:
     if not Client.query.get(order_data["client_id"]):
         abort(404, f"Cliente com ID {order_data['client_id']} não encontrado.")
 
@@ -41,11 +41,11 @@ def post_order(order_data):
     return {"message": "Pedido cadastrado com sucesso!"}, 201
 
 
-def get_one_order(order_id):
+def get_one_order(order_id) -> Optional[Order]:
     return order if (order := Order.query.get(order_id)) else None
 
 
-def update_order(id, updated_data):
+def update_order(id, updated_data) -> Dict[str, str]:
     order = get_one_order(id)
 
     if order is None:
@@ -65,7 +65,7 @@ def update_order(id, updated_data):
         return {"error": str(e)}
 
 
-def delete_one_order(id):
+def delete_one_order(id) -> Dict[str, str]:
     order = get_one_order(id)
 
     if order is None:

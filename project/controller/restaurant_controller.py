@@ -10,6 +10,7 @@ from project.service.restaurant_service import (
     post_restaurant,
     update_restaurant,
 )
+from typing import Tuple, Dict, Any, List, Optional
 from project.utils.redis_utils import (
     delete_redis_value,
     get_redis_value,
@@ -21,7 +22,7 @@ restaurant_schema = RestaurantSchema(many=False)
 
 
 class RestaurantResource(Resource):
-    def get(self):
+    def get(self) -> Tuple[List[Dict[str, Any]], int]:
         key_redis = "restaurants"
         restaurants = get_redis_value(key_redis)
         if restaurants:
@@ -31,7 +32,7 @@ class RestaurantResource(Resource):
         set_redis_value(key_redis, json.dumps(restaurants))
         return restaurants, 200
 
-    def post(self):
+    def post(self) -> Tuple[Dict[str, str], int]:
         try:
             restaurant_data = request.json
             post_restaurant(restaurant_data)
@@ -43,14 +44,14 @@ class RestaurantResource(Resource):
 
 
 class RestaurantResourceID(Resource):
-    def get(self, id):
+    def get(self, id)-> Tuple[Optional[Dict[str, Any]], int]:
         print("a")
         if restaurant := get_one_restaurant(id):
             return restaurant  # type: ignore
         else:
             return {"error": f"Restaurante com ID {id} não encontrado."}, 404
 
-    def patch(self, id):
+    def patch(self, id)-> Tuple[Dict[str, str], int]:
         try:
             restaurant_data = request.json
             result = update_restaurant(id, restaurant_data)
@@ -61,10 +62,9 @@ class RestaurantResourceID(Resource):
             return {"message": result["message"]}, 200
 
         except Exception as e:
-            # print(e)
             return {"error": str(e)}, 500
 
-    def delete(self, id):
+    def delete(self, id)-> Tuple[Dict[str, str], int]:
         try:
             result = delete_restaurant(id)
 

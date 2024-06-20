@@ -2,20 +2,21 @@ from flask import request
 
 from ..ext.database import db
 from ..models.restaurant_model import Restaurant
+from typing import Dict, Optional
 
 
-def get_all_restaurants():
+def get_all_restaurants() -> list[Restaurant]:
     return Restaurant.query.all()
 
 
-def post_restaurant(data_restaurant):
+def post_restaurant(data_restaurant) -> None:
     data_restaurant = request.get_json()
     restaurant = Restaurant(**data_restaurant)
     db.session.add(restaurant)
     db.session.commit()
 
 
-def get_one_restaurant(restaurant_id):
+def get_one_restaurant(restaurant_id) -> Optional[Dict[str, str]]:
     restaurant = Restaurant.query.get(restaurant_id)
 
     if restaurant:
@@ -46,7 +47,7 @@ def get_one_restaurant(restaurant_id):
         return None
 
 
-def update_restaurant(id, updated_data):
+def update_restaurant(id, updated_data) -> Dict[str, str]:
     restaurant = get_one_restaurant(id)
 
     if restaurant is None:
@@ -64,7 +65,7 @@ def update_restaurant(id, updated_data):
         return {"error": str(e)}
 
 
-def delete_restaurant(id):
+def delete_restaurant(id) -> Dict[str, str]:
     restaurant = Restaurant.query.get(id)
 
     if restaurant is None:

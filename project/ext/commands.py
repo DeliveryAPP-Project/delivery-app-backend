@@ -4,7 +4,7 @@ from ..models.product_model import Product
 from ..models.restaurant_model import Restaurant
 
 
-def populate_database():
+def populate_database() -> None:
     data = [
         Client(
             client_name="João",

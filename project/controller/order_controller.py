@@ -10,6 +10,7 @@ from project.service.order_service import (
     post_order,
     update_order,
 )
+from typing import Tuple, Dict, List, Any
 from project.utils.redis_utils import (
     delete_redis_value,
     get_redis_value,
@@ -21,7 +22,7 @@ order_schema = OrderSchema(many=False)
 
 
 class OrderResource(Resource):
-    def get(self):
+    def get(self) -> Tuple[List[Dict[str, Any]], int]:
         key_redis = "orders"
         orders = get_redis_value(key_redis)
         if orders:
@@ -31,7 +32,7 @@ class OrderResource(Resource):
         set_redis_value(key_redis, json.dumps(orders))
         return orders, 200
 
-    def post(self):
+    def post(self) -> Tuple[Dict[str, str], int]:
         try:
             order_data = request.json
             post_order(order_data)
@@ -43,13 +44,13 @@ class OrderResource(Resource):
 
 
 class OrderResourceID(Resource):
-    def get(self, id):
+    def get(self, id)-> Tuple[Dict[str, Any], int]:
         if order := get_one_order(id):
             return order_schema.dump(order), 200  # type: ignore
         else:
             return {"error": f"Ordem com ID {id} não encontrado."}, 404
 
-    def patch(self, id):
+    def patch(self, id) -> Tuple[Dict[str, str], int]:
         try:
             order_data = request.json
             result = update_order(id, order_data)
@@ -61,7 +62,7 @@ class OrderResourceID(Resource):
         except Exception as e:
             return {"error": str(e)}, 500
 
-    def delete(self, id):
+    def delete(self, id) -> Tuple[Dict[str, str], int]:
         try:
             result = delete_one_order(id)
 

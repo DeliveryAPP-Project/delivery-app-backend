@@ -8,7 +8,8 @@ from flask import Flask
 from flask_cors import CORS
 
 
-def create_app(**config):
+
+def create_app(**config) -> Flask:
     """
     Configuração do CORS e carregamento das extensões
 
@@ -27,7 +28,7 @@ def create_app(**config):
     return app
 
 
-def create_app_wsgi():
+def create_app_wsgi() -> create_app:
     """
     Método que inicializa o app
 

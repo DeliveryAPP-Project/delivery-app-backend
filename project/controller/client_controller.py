@@ -15,13 +15,14 @@ from project.utils.redis_utils import (
     get_redis_value,
     set_redis_value,
 )
+from typing import Tuple, Any, List, Dict
 
 client_schema_list = ClientSchema(many=True)
 client_schema = ClientSchema(many=False)
 
 
 class ClientResource(Resource):
-    def get(self):
+    def get(self) -> Tuple[List[Dict[str, Any]], int]:
         key_redis = "clients"
         clients = get_redis_value(key_redis)
         if clients:
@@ -31,7 +32,7 @@ class ClientResource(Resource):
         set_redis_value(key_redis, json.dumps(clients))
         return clients, 200
 
-    def post(self):
+    def post(self) -> Tuple[Dict[str, str], int]:
         try:
             client_data = request.json
             post_client(client_data)
@@ -43,13 +44,13 @@ class ClientResource(Resource):
 
 
 class ClientResourceID(Resource):
-    def get(self, id):
+    def get(self, id) -> Tuple[Dict[str, Any], int]:
         if client := get_one_client(id):
             return client_schema.dump(client), 200
         else:
             return {"error": f"Cliente com ID {id} não encontrado."}, 404
 
-    def patch(self, id):
+    def patch(self, id) -> Tuple[Dict[str, str], int]:
         try:
             client_data = request.json
             result = update_client(id, client_data)
@@ -62,7 +63,7 @@ class ClientResourceID(Resource):
         except Exception as e:
             return {"error": str(e)}, 500
 
-    def delete(self, id):
+    def delete(self, id) -> Tuple[Dict[str, str], int]:
         try:
             result = delete_client(id)
 
