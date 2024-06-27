@@ -17,7 +17,7 @@ def test_post_order_return_200(app_testing, client_10, restaurant_10, product_10
     order_data = {
         "client_id": 4,
         "restaurant_id": 5,
-        "products": [5],
+        "products": [{"product_id": 5, "quantity": 1}],
         "created_at": "2024-03-11 10:00:00",
     }
 

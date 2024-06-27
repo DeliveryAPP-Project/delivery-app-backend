@@ -20,17 +20,17 @@ def post_order(order_data):
     if not Restaurant.query.get(order_data["restaurant_id"]):
         abort(404, f"Restaurante com ID {order_data['restaurant_id']} não encontrado.")
 
-    if not all(Product.query.get(product_id) for product_id in order_data["products"]):
+    if not all(Product.query.get(product["product_id"]) for product in order_data["products"]):
         abort(404, "Um ou mais produtos não foram encontrados.")
 
-    products = [Product.query.get(product_id) for product_id in order_data["products"]]
+    products = [(Product.query.get(product["product_id"]), product["quantity"]) for product in order_data["products"]]
 
-    products_value = [product.value for product in products]
+    products_value = [product.value * quantity for product, quantity in products]
 
     new_order = Order(
         client_id=order_data["client_id"],
         restaurant_id=order_data["restaurant_id"],
-        products=products,
+        products=[product for product, quantity in products], 
         total_value=sum(products_value),
     )
     db.session.add(new_order)
