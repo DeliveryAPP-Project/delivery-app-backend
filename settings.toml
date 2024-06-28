@@ -7,6 +7,7 @@ EXTENSIONS = [
     "project.ext.restapi:init_app",
     "project.ext.database:init_app"
 ]
+SQLALCHEMY_DATABASE_URI = 'sqlite:///db.default.sqlite'
 
 [development]
 FLASK_ENV = "development"
