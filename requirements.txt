@@ -27,7 +27,7 @@ platformdirs==3.11.0
 pluggy==1.4.0
 pytest==8.0.1
 python-dotenv==1.0.0
-psycopg2-binary 
+psycopg2-binary
 pytz==2023.3.post1
 referencing==0.30.2
 SQLAlchemy==2.0.20
@@ -39,7 +39,7 @@ flask-marshmallow
 marshmallow-sqlalchemy
 twilio==9.0.1
 waitress
-mysqlclient
+# mysqlclient
 redis
 pytest-redis==3.1.2
 efipay
