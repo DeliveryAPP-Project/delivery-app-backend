@@ -1,16 +1,21 @@
 from flask import Blueprint
 from flask_restx import Api, fields
 
-
 bp = Blueprint("restapi", __name__, url_prefix="/api/v1")
 api = Api(bp)
+
+lead_model = api.model(
+    "Lead",
+    {
+        "email": fields.String(required=True, description="E-mail do lead"),
+    },
+)
 
 
 restaurant_model = api.model(
     "Restaurant",
     {
-        "name": fields.String(required=True, description="Nome do restaurante"
-        ),
+        "name": fields.String(required=True, description="Nome do restaurante"),
         "description": fields.String(
             required=True, description="Descrição do restaurante"
         ),
@@ -25,7 +30,7 @@ restaurant_model = api.model(
         ),
         "url_image_banner": fields.String(
             required=True, description="URL do banner do restaurante"
-        )
+        ),
     },
 )
 
