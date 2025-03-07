@@ -22,5 +22,5 @@ REDIS_URL = "rediss://red-cus5n0an91rc73di3440:NCMGqJ6UjrX2Xmf1FwQTFU2kmv75q7Xa@
 [production]
 FLASK_ENV = "production"
 INCLUDES = ["default"]
-SQLALCHEMY_DATABASE_URI = "postgresql://hamper_owner:ru4bOwPmxe3h@ep-dark-heart-a5dend16.us-east-2.aws.neon.tech/hamper?sslmode=require"
-REDIS_URL = "rediss://red-crcbc4l2ng1s739qhie0:32UvlizR2k5FCvNu9wZyZZssVjvCkl1h@oregon-redis.render.com:6379"
+SQLALCHEMY_DATABASE_URI = "postgresql://db_user:Gm1gjStNKAMtuIMTZ4AY39PgBZp1WGsz@dpg-cutkig2j1k6c738dbms0-a/hamper_db_0tc5"
+REDIS_URL = "redis://red-cutkipqj1k6c738dbpm0:6379"
