@@ -82,6 +82,7 @@ user_ns.models["UserModel"] = user_model
 product_ns.models["ProductModel"] = product_model
 client_ns.models["ClientModel"] = client_model
 order_ns.models["OrderModel"] = order_model
+lead_ns.models["LeadModel"] = lead_model
 
 restaurant_ns.add_resource(RestaurantResource, "/")
 restaurant_ns.add_resource(RestaurantResourceID, "/<int:id>/products")
@@ -98,12 +99,15 @@ client_ns.add_resource(ClientResourceID, "/<int:id>")
 order_ns.add_resource(OrderResource, "/")
 order_ns.add_resource(OrderResourceID, "/<int:id>")
 
+lead_ns.add_resource(LeadResource, "/")
+
 
 api.add_namespace(restaurant_ns)
 api.add_namespace(user_ns)
 api.add_namespace(product_ns)
 api.add_namespace(client_ns)
 api.add_namespace(order_ns)
+api.add_namespace(lead_ns)
 
 
 def init_app(app):
@@ -113,3 +117,4 @@ def init_app(app):
     api.add_namespace(product_ns)
     api.add_namespace(client_ns)
     api.add_namespace(order_ns)
+    api.add_namespace(lead_ns)
