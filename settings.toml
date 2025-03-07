@@ -5,6 +5,14 @@ SECRET_KEY = "548JM6@aK!pO|DN:US,xUG6zF52yZXP"
 SQLALCHEMY_TRACK_MODIFICATIONS = false
 EXTENSIONS = ["project.ext.restapi:init_app", "project.ext.database:init_app"]
 
+[testing]
+FLASK_ENV = "local"
+INCLUDES = ["default"]
+TEMPLATES_AUTO_RELOAD = true
+DEBUG = true
+SQLALCHEMY_DATABASE_URI = "sqlite:///test.db:memory:"
+REDIS_URL = "redis://"
+
 [local]
 FLASK_ENV = "local"
 INCLUDES = ["default"]
