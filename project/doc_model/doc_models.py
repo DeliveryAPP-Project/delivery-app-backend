@@ -4,7 +4,7 @@ from flask_restx import Api, fields
 bp = Blueprint("restapi", __name__, url_prefix="/api/v1")
 api = Api(bp)
 
-lead_model = api.model(
+doc_lead_model = api.model(
     "Lead",
     {
         "email": fields.String(required=True, description="E-mail do lead"),
@@ -12,7 +12,7 @@ lead_model = api.model(
 )
 
 
-restaurant_model = api.model(
+doc_restaurant_model = api.model(
     "Restaurant",
     {
         "name": fields.String(required=True, description="Nome do restaurante"),
@@ -34,7 +34,7 @@ restaurant_model = api.model(
     },
 )
 
-user_model = api.model(
+doc_user_model = api.model(
     "User",
     {
         "firstname": fields.String(required=True, description="Nome de usuário"),
@@ -43,7 +43,7 @@ user_model = api.model(
     },
 )
 
-product_model = api.model(
+doc_product_model = api.model(
     "Product",
     {
         "name": fields.String(required=True, description="Nome do produto"),
@@ -56,7 +56,7 @@ product_model = api.model(
     },
 )
 
-order_model = api.model(
+doc_order_model = api.model(
     "Order",
     {
         "client_id": fields.Integer(required=True, description="ID do cliente"),
@@ -65,7 +65,7 @@ order_model = api.model(
     },
 )
 
-client_model = api.model(
+doc_client_model = api.model(
     "Client",
     {
         "client_name": fields.String(required=True, description="Nome do cliente"),
