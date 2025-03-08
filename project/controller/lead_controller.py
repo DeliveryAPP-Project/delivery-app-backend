@@ -1,3 +1,5 @@
+import re
+
 from flask import request
 from flask_restx import Resource
 
@@ -19,7 +21,10 @@ class LeadResource(Resource):
                 return {"error": "Invalid input, 'email' key is required"}, 400
 
             email = lead_data.get("email")
-            if not isinstance(email, str) or "@" not in email:
+
+            valid = re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email)  # type: ignore
+
+            if not isinstance(email, str) or not valid:
                 return {"error": "Invalid email format"}, 400
 
             post_lead(lead_data)  # type: ignore
