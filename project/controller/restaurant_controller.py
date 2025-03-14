@@ -3,7 +3,8 @@ import json
 from flask import abort, request
 from flask_restx import Resource
 
-from project.doc_model.doc_models import api, doc_restaurant_model
+from project.doc_model.doc_models import api, restaurant_model
+
 from project.ext.serializer import RestaurantSchema
 from project.service.restaurant_service import (
     delete_restaurant,
@@ -33,7 +34,8 @@ class RestaurantResource(Resource):
         set_redis_value(key_redis, json.dumps(restaurants))
         return restaurants, 200
 
-    @api.expect(doc_restaurant_model)
+
+    @api.expect(restaurant_model)
     def post(self):
         try:
             restaurant_data = request.json
