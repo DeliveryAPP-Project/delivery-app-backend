@@ -19,6 +19,7 @@ def test_post_client_return_200(app_testing):
         "client_address_complement": "Apto 101",
         "client_address_neighborhood": "Bairro do Teste",
         "client_zip_code": "12345-678"
+        
     }
 
     response = client.post('/api/v1/clients/', json=client_data)
