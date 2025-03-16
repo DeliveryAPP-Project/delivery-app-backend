@@ -45,3 +45,4 @@ pytest-redis==3.1.2
 efipay
 Pillow
 pyqrcode
+mercadopago=2.2.3
