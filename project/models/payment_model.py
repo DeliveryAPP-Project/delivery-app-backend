@@ -10,13 +10,18 @@ class Payment(db.Model):
     type = db.Column(db.Enum("Dinheiro", "Pix", name="payment_type"), nullable=False)
     status = db.Column(
         db.Enum(
-            "Aguardando Pagamento",
-            "Pagamento Concluido",
-            "Expirado",
-            "Cancelado",
+            "pending",
+            "approved",
+            "authorized",
+            "in_process",
+            "in_mediation",
+            "rejected",
+            "cancelled",
+            "refunded",
+            "charged_back",
             name="payment_status",
         ),
-        default="Aguardando Pagamento",
+        default="pending",
     )
     order_id = db.Column(db.ForeignKey("order.id"))
     order = db.relationship("Order", back_populates="payment")
