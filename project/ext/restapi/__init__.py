@@ -4,6 +4,7 @@ from project.doc_model.doc_models import (
     bp,
     client_model,
     order_model,
+    payment_model,
     product_model,
     restaurant_model,
     user_model,
@@ -11,6 +12,7 @@ from project.doc_model.doc_models import (
 from project.utils.namespace import (
     client_ns,
     order_ns,
+    payment_ns,
     product_ns,
     restaurant_ns,
     user_ns,
@@ -18,6 +20,7 @@ from project.utils.namespace import (
 
 from ...controller.client_controller import ClientResource, ClientResourceID
 from ...controller.order_controller import OrderResource, OrderResourceID
+from ...controller.payment_controller import PaymentResource, PaymentResourceID
 from ...controller.product_controller import ProductResource, ProductResourceID
 from ...controller.restaurant_controller import RestaurantResource, RestaurantResourceID
 
@@ -26,6 +29,7 @@ user_ns.models["UserModel"] = user_model
 product_ns.models["ProductModel"] = product_model
 client_ns.models["ClientModel"] = client_model
 order_ns.models["OrderModel"] = order_model
+payment_ns.models["PaymentModel"] = payment_model
 
 restaurant_ns.add_resource(RestaurantResource, "/")
 restaurant_ns.add_resource(RestaurantResourceID, "/<int:id>/products")
@@ -42,12 +46,15 @@ client_ns.add_resource(ClientResourceID, "/<int:id>")
 order_ns.add_resource(OrderResource, "/")
 order_ns.add_resource(OrderResourceID, "/<int:id>")
 
+payment_ns.add_resource(PaymentResource, "/")
+payment_ns.add_resource(PaymentResourceID, "/<int:id>")
 
 api.add_namespace(restaurant_ns)
 api.add_namespace(user_ns)
 api.add_namespace(product_ns)
 api.add_namespace(client_ns)
 api.add_namespace(order_ns)
+api.add_namespace(payment_ns)
 
 
 def init_app(app):
@@ -57,3 +64,4 @@ def init_app(app):
     api.add_namespace(product_ns)
     api.add_namespace(client_ns)
     api.add_namespace(order_ns)
+    api.add_namespace(payment_ns)
