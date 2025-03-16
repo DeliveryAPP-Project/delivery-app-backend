@@ -4,6 +4,7 @@ from project.ext.payment_gateways.mercadopago.schema import (
     GetPaymentSdkResult,
     PaymentPayload,
     SearshPaymentSdkResult,
+    UpdatePaymentSdkResult,
 )
 
 sdk = get_mercado_pago_sdk()
@@ -29,6 +30,8 @@ def get_payment(id: int):
 
 
 def update_payment(id: int, update_data: dict):
-    sdkResult = payment.update(payment_id=id, payment_object=update_data)
+    sdkResult: UpdatePaymentSdkResult = payment.update(
+        payment_id=id, payment_object=update_data
+    )
 
     return sdkResult
