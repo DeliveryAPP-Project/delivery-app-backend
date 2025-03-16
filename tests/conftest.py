@@ -1,27 +1,25 @@
 import os
-from unittest.mock import patch
 
 import fakeredis
 import pytest
 
 from project import create_app_wsgi
 from project.ext.database import db
-
-from project.models.user_model import User
-from project.models.restaurant_model import Restaurant
-from project.models.product_model import Product
 from project.models.client_model import Client
 from project.models.order_model import Order
-from project.models.mock_data import mock_users, mock_restaurants, mock_products , mock_clients, mock_orders
+from project.models.payment_model import Payment
+from project.models.product_model import Product
+from project.models.restaurant_model import Restaurant
+from project.models.user_model import User
 
 
 @pytest.fixture
 def app_testing():
-    os.environ['FLASK_ENV'] = 'testing'
+    os.environ["FLASK_ENV"] = "testing"
     app = create_app_wsgi()
     with app.app_context():
         db.create_all()
-        seeding_database()
+        seed()
 
     yield app
 
@@ -34,36 +32,57 @@ def fake_redis():
     return fakeredis.FakeStrictRedis()
 
 
-def seeding_database():
-    for user_data in mock_users:
-        user = User(**user_data)
-        db.session.add(user)
-    
-    for restaurant_data in mock_restaurants:
-        restaurant = Restaurant(**restaurant_data)
-        db.session.add(restaurant)
-    
-    for product_data in mock_products:
-        product = Product(**product_data)
-        db.session.add(product)
-    
-    for client_data in mock_clients:
-        client = Client(**client_data)
-        db.session.add(client)
-
-    for order_data in mock_orders:       
-
-        # Adicionar produtos ao pedido
-        products = [Product.query.get(id) for id in order_data['products']]
-        
-        order = Order(
-                id=order_data["id"],
-                client_id=order_data["client_id"],
-                restaurant_id=order_data["restaurant_id"],
-                products=products
-        )
-
-        db.session.add(order)
-
+def seed():
+    user = User(firstname="John", lastname="Doe", email="john.doe@example.com")
+    db.session.add(user)
     db.session.commit()
 
+    client = Client(
+        name="Jane Doe",
+        cellphone="12345678901",
+        cpf="12345678901",
+        address="123 Main St",
+        address_number=123,
+        address_complement="Apt 4",
+        address_neighborhood="Downtown",
+        zip_code="12345678",
+        email="jane.doe@example.com",
+    )
+    db.session.add(client)
+    db.session.commit()
+
+    restaurant = Restaurant(
+        name="Good Food",
+        description="A nice place to eat",
+        classification=4.5,
+        location="456 Food St",
+        telephone="09876543210",
+    )
+    db.session.add(restaurant)
+    db.session.commit()
+
+    product = Product(
+        name="Pizza",
+        value=19.99,
+        description="Delicious cheese pizza",
+        food_type="Pizza",
+        restaurant_id=restaurant.id,
+    )
+    db.session.add(product)
+    db.session.commit()
+
+    order = Order(
+        client_id=client.id,
+        restaurant_id=restaurant.id,
+        total_value=19.99,
+        status="pendente",
+    )
+    db.session.add(order)
+    db.session.commit()
+
+    payment = Payment(
+        total_value=19.99, type="Pix", status="Aguardando Pagamento", order_id=order.id
+    )
+    db.session.add(payment)
+
+    db.session.commit()
