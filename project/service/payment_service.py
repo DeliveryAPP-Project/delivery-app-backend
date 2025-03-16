@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime, timedelta
 from typing import TypedDict
 
 from dynaconf import settings
@@ -48,20 +47,16 @@ def create_payment(payment_data: CreatePaymentDTO):
         payload: PaymentPayload = {
             "payer": {
                 "email": existing_order.client.email,
-                "adress": {
-                    "street_name": existing_order.client.adress,
-                    "street_number": existing_order.client.adress_number,
-                    "zip_code": existing_order.client.zip_code,
-                },
                 "first_name": existing_order.client.name,
-                "id": existing_order.client.id,
             },
             "installments": 1,
             "payment_method_id": "pix",
             "transaction_amount": existing_order.total_value,
-            "date_of_expiration": (datetime.now() + timedelta(minutes=15)).isoformat(),
-            "notification_url": notification_url,
         }
+
+        if notification_url:
+            payload["notification_url"] = notification_url  # type: ignore
+
         sdkResponse: CreatePaymentSdkResult = mp_create_payment(payload)
 
         if sdkResponse["status"] != "201":
@@ -69,10 +64,19 @@ def create_payment(payment_data: CreatePaymentDTO):
                 f"Mercado Pago Sdk Error: Não foi possível criar o Pagamento, \nstatus: {sdkResponse['status']}\nresponse: \n{sdkResponse['response']}"
             )
 
+        transaction_data = sdkResponse["response"]["point_of_interaction"][
+            "transaction_data"
+        ]
+
         new_payment = Payment(
             order_id=existing_order.id,
             total_value=existing_order.total_value,
             type=payment_data["payment_type"],
+            qr_code=transaction_data["qr_code"],
+            qr_code_base64=transaction_data["qr_code_base64"],
+            ticket_url=transaction_data["ticket_url"],
+            mercadopago_id=sdkResponse["response"]["id"],
+            date_of_expiration=sdkResponse["response"]["date_of_expiration"],
         )
         created_payment.append(new_payment)
 
