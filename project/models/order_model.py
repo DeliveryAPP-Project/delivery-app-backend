@@ -1,4 +1,4 @@
-from sqlalchemy import func
+from datetime import datetime
 
 from project.models.client_model import Client
 from project.models.restaurant_model import Restaurant
@@ -14,7 +14,7 @@ order_product_association = db.Table(
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    created_at = db.Column(db.DateTime, default=func.now)
+    created_at = db.Column(db.DateTime, default=datetime.now)
     client_id = db.Column(db.Integer, db.ForeignKey(Client.id))
     restaurant_id = db.Column(db.Integer, db.ForeignKey(Restaurant.id))
     total_value = db.Column(db.Float)
