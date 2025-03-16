@@ -14,16 +14,14 @@ def create_app(**config):
 
     """
     app = Flask(__name__)
-    FlaskDynaconf(app, envvar_prefix="FLASK", settings_files=[
-                  "settings.toml"])
-    # pylint: disable=E1101
-    app.config.load_extensions(
-        "EXTENSIONS"
+    FlaskDynaconf(
+        app, envvar_prefix="FLASK", settings_files=["settings.toml", ".secrets.toml"]
     )
+    app.config.load_extensions("EXTENSIONS")  # type: ignore
     app.config.update(config)
     CORS(app)
 
-    print(f"Ambiente atual: {app.config.env}")
+    print(f"Ambiente atual: {app.config.env}")  # type: ignore
     print(f"Banco de dados atual: {app.config.get('SQLALCHEMY_DATABASE_URI')}")
     print("Aplicação inicializada com sucesso!")
 
