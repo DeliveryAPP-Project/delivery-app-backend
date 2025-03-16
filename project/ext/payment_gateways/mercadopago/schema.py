@@ -1,17 +1,9 @@
 from typing import Any, Optional, TypedDict
 
 
-class Adress(TypedDict):
-    zip_code: str
-    street_name: str
-    street_number: str
-
-
 class Payer(TypedDict):
-    id: str
     email: str
     first_name: str
-    adress: Adress
 
 
 class PaymentPayload(TypedDict):
@@ -19,8 +11,8 @@ class PaymentPayload(TypedDict):
     installments: int
     transaction_amount: float
     payment_method_id: str
-    date_of_expiration: str
-    notification_url: str
+    # date_of_expiration: Optional[str]
+    # notification_url: Optional[str]
 
 
 class PaymentResponse(TypedDict):
