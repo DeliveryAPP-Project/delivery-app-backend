@@ -23,5 +23,10 @@ class Payment(db.Model):
         ),
         default="pending",
     )
+    qr_code = db.Column(db.String, nullable=True, default=None)
+    qr_code_base64 = db.Column(db.Text, nullable=True, default=None)
+    ticket_url = db.Column(db.String, nullable=True, default=None)
+    mercadopago_id = db.Column(db.String, nullable=True, default=None)
+    date_of_expiration = db.Column(db.DateTime, nullable=True, default=None)
     order_id = db.Column(db.ForeignKey("order.id"))
     order = db.relationship("Order", back_populates="payment")
