@@ -1,4 +1,5 @@
 import json
+from http import HTTPStatus
 from http.client import HTTPException
 
 from flask import abort, request
@@ -7,7 +8,6 @@ from flask_restx import Resource
 from project.doc_model.doc_models import api, order_model
 from project.ext.serializer import OrderSchema
 from project.service.order_service import (
-    create_order,
     delete_order,
     get_all_orders,
     get_order,
@@ -27,22 +27,30 @@ class OrderResource(Resource):
     def get(self):
         key_redis = "orders"
         orders = get_redis_value(key_redis)
+
         if orders:
             return orders, 200
+
         orders = get_all_orders()
         orders = order_schema_list.dump(orders)
         set_redis_value(key_redis, json.dumps(orders))
+
         return orders, 200
 
     @api.expect(order_model)
     def post(self):
         try:
             order_data = request.json
-            create_order(order_data)  # type: ignore
-            delete_redis_value("orders")
+
+            if not order_data:
+                return abort(HTTPStatus.BAD_REQUEST, "No Payload found!")
+
+            delete_redis_value("order")
+
+            return {}, HTTPStatus.CREATED
 
         except Exception as e:
-            return {"error": str(e)}, 400
+            abort(HTTPStatus.BAD_REQUEST, str(e))
 
 
 class OrderResourceID(Resource):
