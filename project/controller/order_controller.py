@@ -8,6 +8,7 @@ from project.doc_model.doc_models import api, order_model
 from project.errors.NotFoundErr import NotFoundError
 from project.ext.serializer import OrderSchema
 from project.service.order_service import (
+    create_order,
     delete_order,
     get_all_orders,
     get_order,
@@ -41,13 +42,15 @@ class OrderResource(Resource):
     def post(self):
         try:
             order_data = request.json
-
             if not order_data:
                 return abort(HTTPStatus.BAD_REQUEST, "No Payload found!")
 
             delete_redis_value("order")
 
-            return {}, HTTPStatus.CREATED
+            created_id = create_order(order_data=order_data)
+            return {
+                "message": f"Pedido com ID {created_id} criado com sucesso!"
+            }, HTTPStatus.CREATED
 
         except Exception as e:
             abort(HTTPStatus.BAD_REQUEST, str(e))
