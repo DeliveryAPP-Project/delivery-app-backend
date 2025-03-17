@@ -51,38 +51,113 @@ def seed():
     db.session.add(client)
     db.session.commit()
 
-    restaurant = Restaurant(
-        name="Good Food",
-        description="A nice place to eat",
-        classification=4.5,
-        location="456 Food St",
-        telephone="09876543210",
-    )
-    db.session.add(restaurant)
+    restaurants = [
+        Restaurant(
+            name="Good Food",
+            description="A nice place to eat",
+            classification=4.5,
+            location="456 Food St",
+            telephone="09876543210",
+        ),
+        Restaurant(
+            name="Great Eats",
+            description="Delicious meals",
+            classification=4.7,
+            location="789 Eatery Ave",
+            telephone="01234567890",
+        ),
+        Restaurant(
+            name="Tasty Bites",
+            description="Yummy snacks",
+            classification=4.6,
+            location="321 Snack Blvd",
+            telephone="12345098765",
+        ),
+    ]
+    db.session.add_all(restaurants)
     db.session.commit()
 
-    product = Product(
-        name="Pizza",
-        value=19.99,
-        description="Delicious cheese pizza",
-        food_type="Pizza",
-        restaurant_id=restaurant.id,
-    )
-    db.session.add(product)
+    products = [
+        Product(
+            name="Pizza",
+            value=19.99,
+            description="Delicious cheese pizza",
+            food_type="Pizza",
+            restaurant_id=restaurants[0].id,
+        ),
+        Product(
+            name="Burger",
+            value=9.99,
+            description="Juicy beef burger",
+            food_type="Lanches",
+            restaurant_id=restaurants[0].id,
+        ),
+        Product(
+            name="Pasta",
+            value=14.99,
+            description="Creamy Alfredo pasta",
+            food_type="Italiana",
+            restaurant_id=restaurants[1].id,
+        ),
+        Product(
+            name="Salad",
+            value=7.99,
+            description="Fresh garden salad",
+            food_type="Brasileira",
+            restaurant_id=restaurants[1].id,
+        ),
+        Product(
+            name="Sushi",
+            value=24.99,
+            description="Assorted sushi platter",
+            food_type="Japonesa",
+            restaurant_id=restaurants[2].id,
+        ),
+        Product(
+            name="Taco",
+            value=4.99,
+            description="Spicy chicken taco",
+            food_type="Mexicana",
+            restaurant_id=restaurants[2].id,
+        ),
+        Product(
+            name="Steak",
+            value=29.99,
+            description="Grilled ribeye steak",
+            food_type="Brasileira",
+            restaurant_id=restaurants[0].id,
+        ),
+        Product(
+            name="Ice Cream",
+            value=5.99,
+            description="Vanilla ice cream",
+            food_type="Doces",
+            restaurant_id=restaurants[1].id,
+        ),
+    ]
+    db.session.add_all(products)
     db.session.commit()
 
-    order = Order(
-        client_id=client.id,
-        restaurant_id=restaurant.id,
-        total_value=19.99,
-        status="pre_order",
-    )
-    db.session.add(order)
+    orders = [
+        Order(
+            client_id=client.id,
+            restaurant_id=restaurants[0].id,
+            total_value=19.99,
+        ),
+        Order(
+            client_id=client.id,
+            restaurant_id=restaurants[1].id,
+            total_value=59.99,
+        ),
+    ]
+
+    db.session.add_all(orders)
     db.session.commit()
 
     payment = Payment(
-        total_value=19.99, type="Dinheiro", status="pending", order_id=order.id
+        total_value=19.99, type="Dinheiro", status="pending", order_id=orders[0].id
     )
+
     db.session.add(payment)
 
     db.session.commit()
