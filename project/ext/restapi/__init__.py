@@ -1,6 +1,3 @@
-from flask import Blueprint
-from flask_restx import Api, fields
-
 from project.controller.lead_controller import LeadResource
 from project.controller.user_controller import UserResource, UserResourceID
 from project.doc_model.doc_models import (
