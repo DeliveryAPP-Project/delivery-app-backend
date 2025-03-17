@@ -48,7 +48,17 @@ class PaymentResource(Resource):
                     HTTPStatus.BAD_REQUEST, description="Payment data is required"
                 )
 
+            required_fields = ["order_id", "payment_type"]
+
+            for field in required_fields:
+                if field not in payment_data:
+                    return abort(
+                        HTTPStatus.BAD_REQUEST,
+                        description=f"Missing required field: {field}",
+                    )
+
             create_payment(payment_data)
+
             delete_redis_value("payments")
             return {"message": "Pagamento cadastrado com sucesso!"}, 201
 
@@ -57,9 +67,6 @@ class PaymentResource(Resource):
 
         except ValueError as e:
             abort(HTTPStatus.BAD_REQUEST, description=str(e))
-
-        except Exception as e:
-            abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=str(e))
 
 
 class PaymentResourceID(Resource):
