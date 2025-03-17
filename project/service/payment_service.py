@@ -1,4 +1,5 @@
 import logging
+from http import HTTPStatus
 from typing import TypedDict
 
 from dynaconf import settings
@@ -59,7 +60,7 @@ def create_payment(payment_data: CreatePaymentDTO):
 
         sdkResponse: CreatePaymentSdkResult = mp_create_payment(payload)
 
-        if sdkResponse["status"] != "201":
+        if sdkResponse["status"] not in [HTTPStatus.OK, HTTPStatus.CREATED]:
             raise Exception(
                 f"Mercado Pago Sdk Error: Não foi possível criar o Pagamento, \nstatus: {sdkResponse['status']}\nresponse: \n{sdkResponse['response']}"
             )
@@ -93,12 +94,13 @@ def create_payment(payment_data: CreatePaymentDTO):
             payment = created_payment[0]
             db_session.add(payment)
             db_session.commit()
+
+            return payment.id
+
         except Exception as e:
             logging.error(f"Erro ao criar pedido: {e}")
             db_session.rollback()
             raise e
-        finally:
-            return {"message": f"Pagamento com ID {id} criado com sucesso!"}
 
 
 def update_payment(id: int, updated_data: UpdatePaymentDTO):
@@ -112,10 +114,9 @@ def update_payment(id: int, updated_data: UpdatePaymentDTO):
     with get_database_session() as db_session:
         try:
             db_session.commit()
+            db_session.refresh(payment)
+            return payment
 
         except Exception as e:
             db_session.rollback()
             raise e
-
-        finally:
-            return {"message": f"Pagamento com ID {id} atualizado com sucesso!"}
