@@ -66,8 +66,6 @@ order_model = api.model(
     {
         "client_id": fields.Integer(required=True, description="ID do cliente"),
         "restaurant_id": fields.Integer(required=True, description="ID do restaurante"),
-        "total_value": fields.Float(description="Valor total do pedido"),
-        "status": fields.String(description="Status do pedido"),
         "products": fields.List(fields.Integer, description="ID dos produtos"),
     },
 )
