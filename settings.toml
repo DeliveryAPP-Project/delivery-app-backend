@@ -1,6 +1,7 @@
 [default]
 APP_NAME = "project"
 DATABASE = "sqlite"
+ERROR_404_HELP = false
 SQLALCHEMY_TRACK_MODIFICATIONS = false
 EXTENSIONS = ["project.ext.restapi:init_app", "project.ext.database:init_app"]
 
