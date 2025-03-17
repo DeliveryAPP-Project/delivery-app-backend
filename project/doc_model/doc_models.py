@@ -4,6 +4,13 @@ from flask_restx import Api, fields
 bp = Blueprint("restapi", __name__, url_prefix="/api/v1")
 api = Api(bp)
 
+lead_model = api.model(
+    "Lead",
+    {
+        "email": fields.String(required=True, description="E-mail do lead"),
+    },
+)
+
 restaurant_model = api.model(
     "Restaurant",
     {
@@ -92,6 +99,7 @@ client_model = api.model(
         "email": fields.String(required=True, description="E-mail do cliente"),
     },
 )
+
 payment_model = api.model(
     "Payment",
     {

@@ -19,5 +19,5 @@ def test_post_restaurant_return_200(app_testing):
     }
 
     response = client.post("/api/v1/restaurants/", json=restaurant_data)
-
+    
     assert response.status_code == 201

@@ -6,6 +6,13 @@ import pytest
 from project import create_app_wsgi
 from project.ext.database import db
 from project.models.client_model import Client
+from project.models.mock_data import (
+    mock_clients,
+    mock_orders,
+    mock_products,
+    mock_restaurants,
+    mock_users,
+)
 from project.models.order_model import Order
 from project.models.payment_model import Payment
 from project.models.product_model import Product
@@ -20,6 +27,7 @@ def app_testing():
     with app.app_context():
         db.create_all()
         seed()
+
 
     yield app
 
@@ -161,3 +169,4 @@ def seed():
     db.session.add(payment)
 
     db.session.commit()
+    

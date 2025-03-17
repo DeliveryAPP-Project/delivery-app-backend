@@ -12,3 +12,4 @@ order_ns = Namespace(name="Order", description="Gerenciar pedido", path="/orders
 payment_ns = Namespace(
     name="Payment", description="Gerenciar pagamento", path="/payments"
 )
+lead_ns = Namespace(name="Lead", description="Gerenciar lead", path="/leads")

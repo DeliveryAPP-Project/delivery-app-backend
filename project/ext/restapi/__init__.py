@@ -1,3 +1,7 @@
+from flask import Blueprint
+from flask_restx import Api, fields
+
+from project.controller.lead_controller import LeadResource
 from project.controller.user_controller import UserResource, UserResourceID
 from project.doc_model.doc_models import (
     api,
@@ -8,11 +12,13 @@ from project.doc_model.doc_models import (
     product_model,
     restaurant_model,
     user_model,
+    lead_model,
 )
 from project.utils.namespace import (
     client_ns,
     order_ns,
     payment_ns,
+    lead_ns,
     product_ns,
     restaurant_ns,
     user_ns,
@@ -30,6 +36,7 @@ product_ns.models["ProductModel"] = product_model
 client_ns.models["ClientModel"] = client_model
 order_ns.models["OrderModel"] = order_model
 payment_ns.models["PaymentModel"] = payment_model
+lead_nd.models["LeadModel"] = payment_model
 
 restaurant_ns.add_resource(RestaurantResource, "/")
 restaurant_ns.add_resource(RestaurantResourceID, "/<int:id>/products")
@@ -49,12 +56,15 @@ order_ns.add_resource(OrderResourceID, "/<int:id>")
 payment_ns.add_resource(PaymentResource, "/")
 payment_ns.add_resource(PaymentResourceID, "/<int:id>")
 
+lead_ns.add_resource(LeadResource, "/")
+
 api.add_namespace(restaurant_ns)
 api.add_namespace(user_ns)
 api.add_namespace(product_ns)
 api.add_namespace(client_ns)
 api.add_namespace(order_ns)
 api.add_namespace(payment_ns)
+api.add_namespace(lead_ns)
 
 
 def init_app(app):
@@ -65,3 +75,4 @@ def init_app(app):
     api.add_namespace(client_ns)
     api.add_namespace(order_ns)
     api.add_namespace(payment_ns)
+    api.add_namespace(lead_ns)

@@ -5,6 +5,14 @@ ERROR_404_HELP = false
 SQLALCHEMY_TRACK_MODIFICATIONS = false
 EXTENSIONS = ["project.ext.restapi:init_app", "project.ext.database:init_app"]
 
+[testing]
+FLASK_ENV = "local"
+INCLUDES = ["default"]
+TEMPLATES_AUTO_RELOAD = true
+DEBUG = true
+SQLALCHEMY_DATABASE_URI = "sqlite:///test.db:memory:"
+REDIS_URL = "redis://"
+
 [local]
 FLASK_ENV = "local"
 INCLUDES = ["default"]
@@ -22,6 +30,14 @@ DEBUG = true
 SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
 REDIS_URL = "redis://localhost:6379"
 NOTIFICATION_URL = ''
+
+[testing]
+FLASK_ENV = "testing"
+INCLUDES = ["default"]
+TEMPLATES_AUTO_RELOAD = true
+DEBUG = true
+SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+REDIS_URL = "redis://localhost:6379"
 
 [staging]
 FLASK_ENV = "staging"
