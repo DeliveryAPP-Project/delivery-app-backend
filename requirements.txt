@@ -39,11 +39,10 @@ flask-marshmallow
 marshmallow-sqlalchemy
 twilio==9.0.1
 waitress
-fakeredis=2.27.0
+fakeredis==2.27.0
 redis
 pytest-redis==3.1.2
-efipay
 Pillow
 pyqrcode
-mercadopago=2.2.3
-pytest-mock=3.14.0
+mercadopago==2.2.3
+pytest-mock==3.14.0
