@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 
-class NotFoundError(Exception):
+class NotFoundError(BaseException):
     """Exception raised for HTTP 404 Not Found errors."""
 
     def __init__(self, message):
