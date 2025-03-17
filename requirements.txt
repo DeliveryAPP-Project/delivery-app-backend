@@ -46,3 +46,4 @@ efipay
 Pillow
 pyqrcode
 mercadopago=2.2.3
+pytest-mock=3.14.0
