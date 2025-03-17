@@ -1,11 +1,11 @@
 import json
 from http import HTTPStatus
-from http.client import HTTPException
 
 from flask import abort, request
 from flask_restx import Resource
 
 from project.doc_model.doc_models import api, order_model
+from project.errors.NotFoundErr import NotFoundError
 from project.ext.serializer import OrderSchema
 from project.service.order_service import (
     delete_order,
@@ -64,27 +64,31 @@ class OrderResourceID(Resource):
     def patch(self, id: int):
         try:
             order_data = request.json
+
             if order_data is None:
                 return abort(400, "error Dados do pedido não fornecidos.")
 
             result = update_order(id, order_data)
             delete_redis_value("clients")
+
             return {"message": result["message"]}, 200
 
-        except HTTPException as e:
-            return {"error": str(e)}, e.code  # type: ignore
+        except NotFoundError as e:
+            abort(HTTPStatus.NOT_FOUND, str(e))
 
         except Exception as e:
-            return {"error": str(e)}, 500
+            abort(HTTPStatus.INTERNAL_SERVER_ERROR, str(e))
 
     def delete(self, id: int):
         try:
             result = delete_order(id)
 
-            if "error" in result:
-                return {"error": result["error"]}, 404
             delete_redis_value("orders")
+
             return {"message": result["message"]}, 200
 
+        except NotFoundError as e:
+            abort(HTTPStatus.NOT_FOUND, str(e))
+
         except Exception as e:
-            return {"error": str(e)}, 500
+            abort(HTTPStatus.INTERNAL_SERVER_ERROR, str(e))
