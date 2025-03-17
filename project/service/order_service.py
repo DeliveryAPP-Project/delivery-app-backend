@@ -1,4 +1,5 @@
 import logging
+from typing import List, TypedDict
 
 from project.errors.NotFoundErr import NotFoundError
 from project.ext.database import get_database_session
@@ -9,11 +10,17 @@ from project.models.restaurant_model import Restaurant
 from project.utils.calculate_total import calculate_total
 
 
+class CreateOrderDTO(TypedDict):
+    client_id: int
+    restaurant_id: int
+    products: List[int]
+
+
 def get_all_orders():
     return Order.query.all()
 
 
-def create_order(order_data: dict):
+def create_order(order_data: CreateOrderDTO):
     existing_restaurant = Restaurant.query.get(order_data["restaurant_id"])
     existing_client = Client.query.get(order_data["client_id"])
 
@@ -48,7 +55,9 @@ def create_order(order_data: dict):
         try:
             db_session.add(new_order)
             db_session.commit()
-            # send_whatsapp_message(new_order)
+
+            return new_order.id
+
         except Exception as e:
             logging.error(f"Erro ao criar pedido: {e}")
             db_session.rollback()
