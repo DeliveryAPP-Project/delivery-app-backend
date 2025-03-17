@@ -5,6 +5,7 @@ from flask import abort, request
 from flask_restx import Resource
 
 from project.doc_model.doc_models import api, payment_model
+from project.errors.NotFoundErr import NotFoundError
 from project.ext.serializer import PaymentSchema
 from project.service.payment_service import (
     create_payment,
@@ -51,16 +52,27 @@ class PaymentResource(Resource):
             delete_redis_value("payments")
             return {"message": "Pagamento cadastrado com sucesso!"}, 201
 
+        except NotFoundError as e:
+            abort(HTTPStatus.NOT_FOUND, description=str(e.message))
+
+        except ValueError as e:
+            abort(HTTPStatus.BAD_REQUEST, description=str(e))
+
         except Exception as e:
-            return {"error": str(e)}, 400
+            abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=str(e))
 
 
 class PaymentResourceID(Resource):
     def get(self, id: int):
-        if payment := get_payment(id):
-            return payment_schema.dump(payment), 200
-        else:
-            return {"error": f"Pagamento com ID {id} não encontrado."}, 404
+        payment = get_payment(id)
+
+        if not payment:
+            return abort(
+                HTTPStatus.NOT_FOUND,
+                description=f"Pagamento com ID {id} não encontrado.",
+            )
+
+        return payment_schema.dump(payment), 200
 
     @api.expect(payment_model)
     def patch(self, id: int):
@@ -68,12 +80,17 @@ class PaymentResourceID(Resource):
             payment_data = request.json
             if not payment_data:
                 raise ValueError("Payment data is required")
-            result = update_payment(id, payment_data)
 
-            if "error" in result:
-                abort(404, message=result["error"])
+            payment = update_payment(id, payment_data)
+
             delete_redis_value("payments")
-            return {"message": result["message"]}, 200
+
+            return {
+                "message": f"Pagamento com ID {payment.id} atualizado com sucesso"
+            }, 200
+
+        except NotFoundError as e:
+            abort(HTTPStatus.NOT_FOUND, description=str(e.message))
 
         except Exception as e:
-            return {"error": str(e)}, 500
+            abort(HTTPStatus.INTERNAL_SERVER_ERROR, description=str(e))
