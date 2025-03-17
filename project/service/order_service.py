@@ -75,7 +75,7 @@ def update_order(id: int, updated_data: dict):
 
     updated_data["products"] = existing_products
 
-    for k, v in updated_data:
+    for k, v in updated_data.items():
         setattr(order, k, v)
 
     with get_database_session() as db_session:
@@ -95,6 +95,7 @@ def delete_order(id: int):
 
     if order is None:
         raise NotFoundError(f"Ordem com ID {id} não encontrado")
+
     with get_database_session() as db_session:
         try:
             db_session.delete(order)
