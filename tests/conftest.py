@@ -75,13 +75,13 @@ def seed():
         client_id=client.id,
         restaurant_id=restaurant.id,
         total_value=19.99,
-        status="pendente",
+        status="pre_order",
     )
     db.session.add(order)
     db.session.commit()
 
     payment = Payment(
-        total_value=19.99, type="Pix", status="Aguardando Pagamento", order_id=order.id
+        total_value=19.99, type="Dinheiro", status="pending", order_id=order.id
     )
     db.session.add(payment)
 

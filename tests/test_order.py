@@ -12,7 +12,7 @@ def test_post_order_return_200(app_testing):
         "restaurant_id": 1,
         "products": [1],
         "total_value": 100.0,
-        "status": "pendente",
+        "status": "pre_order",
     }
 
     response = client.post("/api/v1/orders/", json=order_data)

@@ -20,14 +20,14 @@ class Order(db.Model):
     total_value = db.Column(db.Float)
     status = db.Column(
         db.Enum(
-            "pendente",
-            "confirmado",
-            "fazendo",
-            "entregue",
-            "cancelado",
+            "pre_order",
+            "confirmed",
+            "doing",
+            "done",
+            "canceled",
             name="order_status",
         ),
-        default="pendente",
+        default="pre_order",
     )
     products = db.relationship(
         "Product",
