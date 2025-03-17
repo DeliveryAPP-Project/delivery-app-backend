@@ -56,11 +56,14 @@ class PaymentResource(Resource):
                         HTTPStatus.BAD_REQUEST,
                         description=f"Missing required field: {field}",
                     )
-
-            create_payment(payment_data)
-
+            result = create_payment(payment_data)
             delete_redis_value("payments")
-            return {"message": "Pagamento cadastrado com sucesso!"}, 201
+
+            response = {
+                "message": f"Pagamento com ID {result['payment_id']} cadastrado com sucesso!",
+                "transaction_data": result["transaction_data"],
+            }
+            return response, 201
 
         except NotFoundError as e:
             abort(HTTPStatus.NOT_FOUND, description=str(e.message))
