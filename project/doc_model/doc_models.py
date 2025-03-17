@@ -95,13 +95,9 @@ client_model = api.model(
 payment_model = api.model(
     "Payment",
     {
-        "id": fields.Integer(description="ID do pagamento"),
-        "created_at": fields.DateTime(description="Data de criação do pagamento"),
-        "total_value": fields.Float(
-            required=True, description="Valor total do pagamento"
+        "payment_type": fields.String(
+            required=True, description="Tipo de pagamento Ex: Pix ou Dinheiro"
         ),
-        "type": fields.String(required=True, description="Tipo de pagamento"),
-        "status": fields.String(description="Status do pagamento"),
         "order_id": fields.Integer(required=True, description="ID do pedido"),
     },
 )
