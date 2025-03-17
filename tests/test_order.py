@@ -62,7 +62,7 @@ def test_create_order_return_201(app_testing):
     }
     response = client.post("/api/v1/orders/", json=new_order_data)
     assert response.status_code == 201
-    assert response.json["message"] == "Pedido com ID 2 criado com sucesso!"
+    assert response.json["message"] == "Pedido com ID 3 criado com sucesso!"
 
 
 def test_create_order_return_400_missing_data(app_testing):
