@@ -47,7 +47,7 @@ class OrderResource(Resource):
 
             delete_redis_value("order")
             created_id = create_order(order_data=order_data)
-            
+
             return {
                 "message": f"Pedido com ID {created_id} criado com sucesso!"
             }, HTTPStatus.CREATED
@@ -61,6 +61,7 @@ class OrderResource(Resource):
         except BaseException as e:
             abort(HTTPStatus.BAD_REQUEST, str(e))
 
+
 class OrderResourceID(Resource):
     def get(self, id: int):
         if order := get_order(id):
@@ -68,7 +69,7 @@ class OrderResourceID(Resource):
         else:
             return {"error": f"Ordem com ID {id} não encontrado."}, 404
 
-    @api.expect(doc_order_model)
+    @api.expect(order_model)
     def patch(self, id: int):
         try:
             order_data = request.json
@@ -100,4 +101,3 @@ class OrderResourceID(Resource):
 
         except Exception as e:
             abort(HTTPStatus.INTERNAL_SERVER_ERROR, str(e))
-

@@ -3,7 +3,7 @@ import json
 from flask import abort, request
 from flask_restx import Resource
 
-from project.doc_model.doc_models import api, doc_product_model
+from project.doc_model.doc_models import api, product_model
 from project.ext.serializer import ProductSchema
 from project.service.product_service import (
     delete_product,
@@ -42,7 +42,7 @@ class ProductResource(Resource):
         except Exception as e:
             return {"error": str(e)}, 400
 
-    @api.expect(doc_product_model)
+    @api.expect(product_model)
     def post(self):
         try:
             product_data = request.json
@@ -64,7 +64,7 @@ class ProductResourceID(Resource):
         except Exception as e:
             return {"error": str(e)}, 400
 
-    @api.expect(doc_product_model)
+    @api.expect(product_model)
     def patch(self, id: int):
         try:
             product_data = request.json

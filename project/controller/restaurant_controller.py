@@ -4,7 +4,6 @@ from flask import abort, request
 from flask_restx import Resource
 
 from project.doc_model.doc_models import api, restaurant_model
-
 from project.ext.serializer import RestaurantSchema
 from project.service.restaurant_service import (
     delete_restaurant,
@@ -34,7 +33,6 @@ class RestaurantResource(Resource):
         set_redis_value(key_redis, json.dumps(restaurants))
         return restaurants, 200
 
-
     @api.expect(restaurant_model)
     def post(self):
         try:
@@ -54,7 +52,7 @@ class RestaurantResourceID(Resource):
         else:
             return {"error": f"Restaurante com ID {id} não encontrado."}, 404
 
-    @api.expect(doc_restaurant_model)
+    @api.expect(restaurant_model)
     def patch(self, id: int):
         try:
             restaurant_data = request.json
