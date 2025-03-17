@@ -2,7 +2,7 @@ from dynaconf import settings
 
 from mercadopago import SDK
 
-ACCESS_TOKEN = settings["MERCADO_VENDOR_TOKEN"]
+ACCESS_TOKEN = settings["MERCADOPAGO_ACCESS_TOKEN"]
 
 
 sdk = SDK(
