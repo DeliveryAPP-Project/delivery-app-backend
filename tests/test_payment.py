@@ -44,7 +44,7 @@ def test_create_payment_dinheiro_return_201(app_testing):
     }
     response = client.post("/api/v1/payments/", json=new_payment_data)
     assert response.status_code == 201
-    assert response.json["message"] == "Pagamento cadastrado com sucesso!"
+    assert response.json["message"] == "Pagamento com ID 2 cadastrado com sucesso!"
 
 
 def test_create_payment_return_400_missing_data(app_testing):
