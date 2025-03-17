@@ -12,6 +12,7 @@ TEMPLATES_AUTO_RELOAD = true
 DEBUG = true
 SQLALCHEMY_DATABASE_URI = "sqlite:///test.db:memory:"
 REDIS_URL = "redis://"
+NOTIFICATION_URL = ''
 
 [local]
 FLASK_ENV = "local"
