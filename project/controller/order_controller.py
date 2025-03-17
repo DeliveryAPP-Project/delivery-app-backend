@@ -52,7 +52,13 @@ class OrderResource(Resource):
                 "message": f"Pedido com ID {created_id} criado com sucesso!"
             }, HTTPStatus.CREATED
 
-        except Exception as e:
+        except KeyError as e:
+            abort(HTTPStatus.BAD_REQUEST, f"Validation Error: Missing {e}")
+
+        except NotFoundError as e:
+            abort(HTTPStatus.NOT_FOUND, e.message)
+
+        except BaseException as e:
             abort(HTTPStatus.BAD_REQUEST, str(e))
 
 
