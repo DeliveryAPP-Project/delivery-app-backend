@@ -38,7 +38,7 @@ def create_order(order_data: CreateOrderDTO):
         product = Product.query.get(id)
 
         if not product:
-            raise NotFoundError(f"Produto com ID {id} não encontrado")
+            raise NotFoundError(f"Produto com ID {id} não encontrado.")
 
         existing_products.append(product)
 
