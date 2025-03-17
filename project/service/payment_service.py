@@ -95,7 +95,16 @@ def create_payment(payment_data: CreatePaymentDTO):
             db_session.add(payment)
             db_session.commit()
 
-            return payment.id
+            result = {
+                "payment_id": payment.id,
+                "transaction_data": {
+                    "qr_code": payment.qr_code,
+                    "qr_code_base64": payment.qr_code_base64,
+                    "ticket_url": payment.ticket_url,
+                },
+            }
+
+            return result
 
         except Exception as e:
             logging.error(f"Erro ao criar pedido: {e}")
