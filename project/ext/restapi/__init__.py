@@ -7,18 +7,18 @@ from project.doc_model.doc_models import (
     api,
     bp,
     client_model,
+    lead_model,
     order_model,
     payment_model,
     product_model,
     restaurant_model,
     user_model,
-    lead_model,
 )
 from project.utils.namespace import (
     client_ns,
+    lead_ns,
     order_ns,
     payment_ns,
-    lead_ns,
     product_ns,
     restaurant_ns,
     user_ns,
@@ -36,7 +36,7 @@ product_ns.models["ProductModel"] = product_model
 client_ns.models["ClientModel"] = client_model
 order_ns.models["OrderModel"] = order_model
 payment_ns.models["PaymentModel"] = payment_model
-lead_nd.models["LeadModel"] = payment_model
+lead_ns.models["LeadModel"] = lead_model
 
 restaurant_ns.add_resource(RestaurantResource, "/")
 restaurant_ns.add_resource(RestaurantResourceID, "/<int:id>/products")
