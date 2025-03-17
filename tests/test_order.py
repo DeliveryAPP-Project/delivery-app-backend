@@ -1,6 +1,3 @@
-import pytest
-
-
 def test_get_order_by_id_return_200(app_testing):
     client = app_testing.test_client()
     response = client.get("/api/v1/orders/1")
@@ -68,7 +65,6 @@ def test_create_order_return_201(app_testing):
     assert response.json["message"] == "Pedido com ID 2 criado com sucesso!"
 
 
-@pytest.mark.skip()
 def test_create_order_return_400_missing_data(app_testing):
     client = app_testing.test_client()
     new_order_data = {
@@ -76,12 +72,13 @@ def test_create_order_return_400_missing_data(app_testing):
         "restaurant_id": 1,
         # Missing products and total_value
     }
+
     response = client.post("/api/v1/orders/", json=new_order_data)
+
     assert response.status_code == 400
-    assert response.json["error"] == "Dados do pedido não fornecidos."
+    assert response.json["message"] == "Validation Error: Missing 'products'"
 
 
-@pytest.mark.skip()
 def test_create_order_return_404_invalid_client(app_testing):
     client = app_testing.test_client()
     new_order_data = {
@@ -93,10 +90,9 @@ def test_create_order_return_404_invalid_client(app_testing):
     }
     response = client.post("/api/v1/orders/", json=new_order_data)
     assert response.status_code == 404
-    assert response.json["error"] == "Cliente com ID 999 não encontrado."
+    assert response.json["message"] == "Cliente com ID 999 não encontrado."
 
 
-@pytest.mark.skip()
 def test_create_order_return_404_invalid_restaurant(app_testing):
     client = app_testing.test_client()
     new_order_data = {
@@ -108,10 +104,9 @@ def test_create_order_return_404_invalid_restaurant(app_testing):
     }
     response = client.post("/api/v1/orders/", json=new_order_data)
     assert response.status_code == 404
-    assert response.json["error"] == "Restaurante com ID 999 não encontrado."
+    assert response.json["message"] == "Restaurante com ID 999 não encontrado."
 
 
-@pytest.mark.skip()
 def test_create_order_return_404_invalid_product(app_testing):
     client = app_testing.test_client()
     new_order_data = {
@@ -123,4 +118,4 @@ def test_create_order_return_404_invalid_product(app_testing):
     }
     response = client.post("/api/v1/orders/", json=new_order_data)
     assert response.status_code == 404
-    assert response.json["error"] == "Produto com ID 999 não encontrado."
+    assert response.json["message"] == "Produto com ID 999 não encontrado."
