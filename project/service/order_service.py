@@ -1,162 +1,116 @@
-from decimal import Decimal
-from flask import abort
-from efipay import EfiPay
+import logging
+from typing import List, TypedDict
 
-from project.ext.database import db
+from project.errors.NotFoundErr import NotFoundError
+from project.ext.database import get_database_session
 from project.models.client_model import Client
 from project.models.order_model import Order
-from project.models.pix_model import Pix
 from project.models.product_model import Product
 from project.models.restaurant_model import Restaurant
-from project.utils.generate_unique_txid import generate_unique_txid
-from ..utils.constants_pix import CLIENT_ID, CLIENT_SECRET, CERTIFICATE, URL_PROD
-from ..utils.twilio_utils import send_whatsapp_message
+from project.utils.calculate_total import calculate_total
 
 
-options = {
-    'client_id': CLIENT_ID,
-    'client_secret': CLIENT_SECRET,
-    'certificate': CERTIFICATE,
-    'url': URL_PROD
-}
+class CreateOrderDTO(TypedDict):
+    client_id: int
+    restaurant_id: int
+    products: List[int]
 
-efi = EfiPay(options)
 
 def get_all_orders():
     return Order.query.all()
 
 
-def save_client(order_data: dict):
-    required_fields = ['client_name', 'client_cellphone', 'client_cpf', 'client_address', 
-                       'client_address_number', 'client_address_complement', 
-                       'client_address_neighborhood', 'client_zip_code']
-    
-    for field in required_fields:
-        if field not in order_data:
-            abort(400, f"Campo '{field}' é obrigatório.")
+def create_order(order_data: CreateOrderDTO):
+    existing_restaurant = Restaurant.query.get(order_data["restaurant_id"])
+    existing_client = Client.query.get(order_data["client_id"])
 
+    if not existing_restaurant:
+        raise NotFoundError(
+            f"Restaurante com ID {order_data['restaurant_id']} não encontrado."
+        )
 
-    new_client = Client(
-        client_name=order_data['client_name'], 
-        client_cellphone=order_data['client_cellphone'],
-        client_cpf=order_data['client_cpf'],
-        client_address=order_data['client_address'], 
-        client_address_number=order_data['client_address_number'],
-        client_address_complement=order_data['client_address_complement'], 
-        client_address_neighborhood=order_data['client_address_neighborhood'],
-        client_zip_code=order_data['client_zip_code']
-    )
-    db.session.add(new_client)
-    db.session.commit()
+    if not existing_client:
+        raise NotFoundError(f"Cliente com ID {order_data['client_id']} não encontrado.")
 
+    existing_products = []
 
-def post_order(order_data: dict):
-    if not Restaurant.query.get(order_data['restaurant_id']):
-        abort(404, f"Restaurante com ID {order_data['restaurant_id']} não encontrado.")
+    for id in order_data["products"]:
+        product = Product.query.get(id)
 
-    if not all(Product.query.get(product_id) for product_id in order_data['products']):
-        abort(404, "Um ou mais produtos não foram encontrados.")
+        if not product:
+            raise NotFoundError(f"Produto com ID {id} não encontrado.")
 
-    products = [Product.query.get(product_id) for product_id in order_data['products']]
-    products_value = [product.value for product in products]
+        existing_products.append(product)
 
-    client = Client.query.filter(Client.id == order_data.get('client_id')).first()
-
-    if not client:
-        save_client(order_data)
-        
-        client = Client.query.filter(Client.client_cellphone == order_data['client_cellphone']).first()
-        if not client:
-            abort(404, f"Cliente com telefone {order_data['client_cellphone']} não encontrado.")
-    else:
-        client.client_name = order_data.get('client_name', client.client_name)
-        client.client_cellphone = order_data.get('client_cellphone', client.client_cellphone)
-        client.client_cpf = order_data.get('client_cpf', client.client_cpf)
-        client.client_address = order_data.get('client_address', client.client_address)
-        client.client_address_number = order_data.get('client_address_number', client.client_address_number)
-        client.client_address_complement = order_data.get('client_address_complement', client.client_address_complement)
-        client.client_address_neighborhood = order_data.get('client_address_neighborhood', client.client_address_neighborhood)
-        client.client_zip_code = order_data.get('client_zip_code', client.client_zip_code)
-
-        db.session.commit()
+    total = calculate_total(existing_products)
 
     new_order = Order(
-        client_id=client.id,
-        restaurant_id=order_data['restaurant_id'],
-        total_value=sum(products_value),
-        products=products,
-        payment=order_data['payment']
+        client_id=existing_client.id,
+        restaurant_id=existing_restaurant.id,
+        total_value=total,
+        products=existing_products,
     )
 
-    db.session.add(new_order)
-    db.session.commit()
+    with get_database_session() as db_session:
+        try:
+            db_session.add(new_order)
+            db_session.commit()
 
-    send_whatsapp_message(new_order)
+            return new_order.id
 
-    if order_data['payment'] == 'Pix':
-        pix_model = Pix()
-        
-        body = {
-        "calendario": {
-            "expiracao": 3600
-        },
-        "devedor": {
-            "cpf": f"{client.client_cpf}",
-            "nome": f"{client.client_name}"
-        },
-        "valor": {
-            "original": f"{Decimal(sum(products_value)).quantize(Decimal('0.00'))}"
-        },
-        "chave": "afe37274-6de9-4c91-8ffe-9830dbe8c1a6",
-        "solicitacaoPagador": "Cobrança dos serviços prestados."
-    }
-
-        txid = generate_unique_txid()
-
-        info_pix = pix_model.create_charge(txid, body)
-        return info_pix
-    
-    return None
+        except Exception as e:
+            logging.error(f"Erro ao criar pedido: {e}")
+            db_session.rollback()
+            raise e
 
 
-def get_one_order(order_id: int):
+def get_order(order_id: int):
     return order if (order := Order.query.get(order_id)) else None
 
 
 def update_order(id: int, updated_data: dict):
-    order = get_one_order(id)
+    order: Order | None = get_order(id)
 
     if order is None:
-        abort(404, error=f"Ordem com ID {id} não encontrado")
+        raise NotFoundError(f"Ordem com ID {id} não encontrado")
 
-    try:
-        for key, value in updated_data.items():
-            if key == "products":
-                value = [Product.query.get(product_id) for product_id in value]
-            setattr(order, key, value)
+    existing_products = []
 
-        db.session.commit()
-        return {"message": f"Ordem com ID {id} atualizado com sucesso!"}
+    for id in updated_data["products"]:
+        product = Product.query.get(id)
+        if not product:
+            raise NotFoundError(f"Produto com ID {id} não encontrado")
+        existing_products.append(product)
 
-    except Exception as e:
-        db.session.rollback()
-        abort(500, error=str(e))
+    updated_data["products"] = existing_products
+
+    for k, v in updated_data.items():
+        setattr(order, k, v)
+
+    with get_database_session() as db_session:
+        try:
+            db_session.commit()
+
+        except Exception as e:
+            db_session.rollback()
+            raise e
+
+        finally:
+            return {"message": f"Ordem com ID {id} atualizado com sucesso!"}
 
 
-def delete_one_order(id: int):
-    order = get_one_order(id)
+def delete_order(id: int):
+    order = get_order(id)
 
     if order is None:
-        return {"error": f"Ordem com ID {id} não encontrado"}
+        raise NotFoundError(f"Ordem com ID {id} não encontrado")
 
-    try:
-        db.session.delete(order)
-        db.session.commit()
-        return {"message": f"Ordem com ID {id} deletado com sucesso."}
+    with get_database_session() as db_session:
+        try:
+            db_session.delete(order)
+            db_session.commit()
+            return {"message": f"Ordem com ID {id} deletado com sucesso."}
 
-    except Exception as e:
-        db.session.rollback()
-        return {"error": str(e)}
-
-def total_order_value(order_data: dict):
-    pass
+        except Exception as e:
+            db_session.rollback()
+            raise e

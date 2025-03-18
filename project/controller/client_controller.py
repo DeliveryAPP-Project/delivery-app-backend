@@ -3,7 +3,7 @@ import json
 from flask import abort, request
 from flask_restx import Resource
 
-from project.doc_model.doc_models import api, doc_client_model
+from project.doc_model.doc_models import api, client_model
 from project.ext.serializer import ClientSchema
 from project.service.client_service import (
     delete_client,
@@ -33,7 +33,7 @@ class ClientResource(Resource):
         set_redis_value(key_redis, json.dumps(clients))
         return clients, 200
 
-    @api.expect(doc_client_model)
+    @api.expect(client_model)
     def post(self):
         try:
             client_data = request.json
@@ -52,7 +52,7 @@ class ClientResourceID(Resource):
         else:
             return {"error": f"Cliente com ID {id} não encontrado."}, 404
 
-    @api.expect(doc_client_model)
+    @api.expect(client_model)
     def patch(self, id: int):
         try:
             client_data = request.json

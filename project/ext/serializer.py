@@ -1,12 +1,12 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import fields
 
+from project.models.client_model import Client
 from project.models.order_model import Order
+from project.models.payment_model import Payment
 from project.models.product_model import Product
 from project.models.restaurant_model import Restaurant
 from project.models.user_model import User
-from project.models.client_model import Client
-
 
 ma = Marshmallow()
 
@@ -47,4 +47,11 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         model = User
         load_instance = True
         orders = fields.Nested(OrderSchema)
+        include_relationships = True
+
+
+class PaymentSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Payment
+        load_instance = True
         include_relationships = True

@@ -3,7 +3,7 @@ import re
 from flask import request
 from flask_restx import Resource
 
-from project.doc_model.doc_models import api, doc_lead_model
+from project.doc_model.doc_models import api, lead_model
 from project.service.lead_service import (
     post_lead,
 )
@@ -13,7 +13,7 @@ from project.utils.redis_utils import (
 
 
 class LeadResource(Resource):
-    @api.expect(doc_lead_model)
+    @api.expect(lead_model)
     def post(self):
         try:
             lead_data = request.json

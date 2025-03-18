@@ -1,7 +1,7 @@
 [default]
 APP_NAME = "project"
 DATABASE = "sqlite"
-SECRET_KEY = "548JM6@aK!pO|DN:US,xUG6zF52yZXP"
+ERROR_404_HELP = false
 SQLALCHEMY_TRACK_MODIFICATIONS = false
 EXTENSIONS = ["project.ext.restapi:init_app", "project.ext.database:init_app"]
 
@@ -12,6 +12,7 @@ TEMPLATES_AUTO_RELOAD = true
 DEBUG = true
 SQLALCHEMY_DATABASE_URI = "sqlite:///test.db:memory:"
 REDIS_URL = "redis://"
+NOTIFICATION_URL = ''
 
 [local]
 FLASK_ENV = "local"
@@ -20,23 +21,14 @@ TEMPLATES_AUTO_RELOAD = true
 DEBUG = true
 SQLALCHEMY_DATABASE_URI = "postgresql://myuser:mypassword1@localhost:5432/mydatabase"
 REDIS_URL = "redis://localhost:6379"
-
-[testing]
-FLASK_ENV = "testing"
-INCLUDES = ["default"]
-TEMPLATES_AUTO_RELOAD = true
-DEBUG = true
-SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
-REDIS_URL = "redis://localhost:6379"
+NOTIFICATION_URL = ''
 
 [staging]
 FLASK_ENV = "staging"
 INCLUDES = ["default"]
-SQLALCHEMY_DATABASE_URI = "postgresql://hamper:LIiz7xo7oa3mYK5TkpweZC8uGwMA2rai@dpg-cus791a3esus73fk56lg-a.oregon-postgres.render.com/hamper_db_axx0"
-REDIS_URL = "rediss://red-cus5n0an91rc73di3440:NCMGqJ6UjrX2Xmf1FwQTFU2kmv75q7Xa@oregon-keyvalue.render.com:6379"
+NOTIFICATION_URL = 'https://staging-hamper-backend.onrender.com/api/v1/notification'
 
 [production]
 FLASK_ENV = "production"
 INCLUDES = ["default"]
-SQLALCHEMY_DATABASE_URI = "postgresql://db_user:Gm1gjStNKAMtuIMTZ4AY39PgBZp1WGsz@dpg-cutkig2j1k6c738dbms0-a/hamper_db_0tc5"
-REDIS_URL = "redis://red-cutkipqj1k6c738dbpm0:6379"
+NOTIFICATION_URL = ''

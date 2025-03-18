@@ -14,9 +14,10 @@ def test_post_restaurant_return_200(app_testing):
         "location": "Cidade do Teste",
         "url_image_logo": "url_logo_teste",
         "url_image_banner": "url_banner_teste",
-        "telephone": "12345678901",
+        "telephone": "1234567890",
         "has_plastic": False,
     }
 
     response = client.post("/api/v1/restaurants/", json=restaurant_data)
+    
     assert response.status_code == 201

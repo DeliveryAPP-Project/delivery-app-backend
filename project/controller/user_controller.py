@@ -3,7 +3,7 @@ import json
 from flask import abort, request
 from flask_restx import Resource
 
-from project.doc_model.doc_models import api, doc_user_model
+from project.doc_model.doc_models import api, user_model
 from project.ext.serializer import UserSchema
 from project.service.user_service import (
     delete_user,
@@ -33,7 +33,7 @@ class UserResource(Resource):
         set_redis_value(key_redis, json.dumps(users))
         return users, 200
 
-    @api.expect(doc_user_model)
+    @api.expect(user_model)
     def post(self):
         try:
             user_data = request.json
@@ -52,7 +52,7 @@ class UserResourceID(Resource):
         else:
             return {"error": f"Usuário com ID {id} não encontrado."}, 404
 
-    @api.expect(doc_user_model)
+    @api.expect(user_model)
     def patch(self, id: int):
         try:
             user_data = request.json
