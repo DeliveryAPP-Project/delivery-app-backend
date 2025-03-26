@@ -27,7 +27,7 @@ def create_app(**config):
                 "origins": [
                     "https://homologacao.d3izdss14he5ng.amplifyapp.com",
                     "http://localhost:5173",
-                    "http://100.26.203.78:5173/",
+                    "http://100.26.203.78:5173",
                 ]
             }
         },
