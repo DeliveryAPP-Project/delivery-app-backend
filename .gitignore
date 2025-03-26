@@ -7,6 +7,8 @@
 # Banco de dados SQLite (substitua o nome do arquivo pelo seu, se necessário)
 /db.sqlite
 /db_testing.sqlite
+data*
+/data
 
 # Diretório virtualenv (se estiver usando um ambiente virtual)
 /venv/
