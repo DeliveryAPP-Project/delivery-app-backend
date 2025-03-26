@@ -19,7 +19,19 @@ def create_app(**config):
     )
     app.config.load_extensions("EXTENSIONS")  # type: ignore
     app.config.update(config)
-    CORS(app)
+
+    CORS(
+        app,
+        resources={
+            "/api/v1/*": {
+                "origins": [
+                    "https://homologacao.d3izdss14he5ng.amplifyapp.com",
+                    "http://localhost:5173",
+                    "http://172.24.0.2:5173",
+                ]
+            }
+        },
+    )
 
     print(f"Ambiente atual: {app.config.env}")  # type: ignore
     print(f"Banco de dados atual: {app.config.get('SQLALCHEMY_DATABASE_URI')}")
