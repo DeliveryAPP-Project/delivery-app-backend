@@ -24,7 +24,7 @@ def create_app(**config):
         resources={
             r"/api/v1/*": {
                 "origins": [
-                    "http://hamper.duckdns.org:5173"
+                    "http://hamper.duckdns.org:5173",
                     "https://homologacao.d3izdss14he5ng.amplifyapp.com",
                     "http://localhost:5173",
                     "http://100.26.203.78:5173",
