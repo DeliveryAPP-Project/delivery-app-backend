@@ -24,7 +24,7 @@ establishment_schema = EstablishmentSchema(many=False)
 
 class EstablishmentResource(Resource):
     def get(self):
-        key_redis = "establishment" # Arrumar isso 
+        key_redis = "establishment"
         establishments = get_redis_value(key_redis)
         if establishments:
             return establishments
