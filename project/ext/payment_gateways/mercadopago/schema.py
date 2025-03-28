@@ -6,6 +6,17 @@ class Payer(TypedDict):
     first_name: str
 
 
+class NotificationPayload(TypedDict):
+    action: str
+    api_version: str
+    data: dict[str, int]
+    date_created: str
+    id: str
+    live_mode: bool
+    type: str
+    user_id: int
+
+
 class PaymentPayload(TypedDict):
     payer: Payer
     installments: int
