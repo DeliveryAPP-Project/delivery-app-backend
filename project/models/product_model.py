@@ -1,9 +1,10 @@
 from ..ext.database import db
 
-products_restaurants = db.Table(
-    "products_restaurants",
-    db.Column("product_id", db.Integer, db.ForeignKey("product.id")),
-    db.Column("restaurant_id", db.Integer, db.ForeignKey("restaurant.id")),
+products_establishment = db.Table(
+    "products_establishment",
+    db.metadata,
+    db.Column("product_id", db.Integer, db.ForeignKey("product.id"), primary_key=True),
+    db.Column("establishment_id", db.Integer, db.ForeignKey("establishment.id"), primary_key=True),
 )
 
 
@@ -18,9 +19,9 @@ class Product(db.Model):
     has_lactose: bool = db.Column(db.Boolean, nullable=False, default=False)
     is_vegan: bool = db.Column(db.Boolean, nullable=False, default=False)
     is_vegetarian: bool = db.Column(db.Boolean, nullable=False, default=False)
-    restaurant_id: int = db.Column(
-        db.Integer, db.ForeignKey("restaurant.id"), nullable=False
+    establishment_id: int = db.Column(
+        db.Integer, db.ForeignKey("establishment.id"), nullable=False
     )
-    associated_restaurants = db.relationship(
-        "Restaurant", secondary=products_restaurants, backref="associated_products"
+    associated_establishments = db.relationship(
+        "Establishment", secondary=products_establishment, backref="associated_products"
     )

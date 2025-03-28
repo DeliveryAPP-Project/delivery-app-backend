@@ -6,13 +6,13 @@ from project.ext.database import get_database_session
 from project.models.client_model import Client
 from project.models.order_model import Order
 from project.models.product_model import Product
-from project.models.restaurant_model import Restaurant
+from project.models.establishment_model import Establishment
 from project.utils.calculate_total import calculate_total
 
 
 class CreateOrderDTO(TypedDict):
     client_id: int
-    restaurant_id: int
+    establishment_id: int
     products: List[int]
 
 
@@ -21,12 +21,12 @@ def get_all_orders():
 
 
 def create_order(order_data: CreateOrderDTO):
-    existing_restaurant = Restaurant.query.get(order_data["restaurant_id"])
+    existing_establishment = Establishment.query.get(order_data["establishment_id"])
     existing_client = Client.query.get(order_data["client_id"])
 
-    if not existing_restaurant:
+    if not existing_establishment:
         raise NotFoundError(
-            f"Restaurante com ID {order_data['restaurant_id']} não encontrado."
+            f"Estabelecimento com ID {order_data['establishment_id']} não encontrado."
         )
 
     if not existing_client:
@@ -46,7 +46,7 @@ def create_order(order_data: CreateOrderDTO):
 
     new_order = Order(
         client_id=existing_client.id,
-        restaurant_id=existing_restaurant.id,
+        establishment_id=existing_establishment.id,
         total_value=total,
         products=existing_products,
     )

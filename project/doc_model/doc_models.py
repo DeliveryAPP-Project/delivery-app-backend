@@ -11,29 +11,22 @@ lead_model = api.model(
     },
 )
 
-restaurant_model = api.model(
-    "Restaurant",
+establishment_model = api.model(
+    "Establishment",
     {
-        "name": fields.String(required=True, description="Nome do restaurante"),
-        "description": fields.String(
-            required=True, description="Descrição do restaurante"
-        ),
-        "classification": fields.Float(
-            required=True, description="Classificação do restaurante"
-        ),
-        "location": fields.String(
-            required=True, description="Localização do restaurante"
-        ),
-        "url_image_logo": fields.String(description="URL da logo do restaurante"),
-        "url_image_banner": fields.String(description="URL do banner do restaurante"),
-        "telephone": fields.String(
-            required=True, description="Telefone do restaurante"
-        ),
-        "has_plastic": fields.Boolean(
-            required=True, description="Indica se o restaurante usa plástico"
-        ),
+        "id": fields.Integer(description="ID do estabelecimento"),
+        "official_name": fields.String(required=True, description="Nome oficial do estabelecimento"),
+        "fantasy_name": fields.String(required=True, description="Nome fantasia do estabelecimento"),
+        "cnpj": fields.String(required=True, description="CNPJ do estabelecimento"),
+        "telephone": fields.String(required=True, description="Telefone do estabelecimento"),
+        "zip_code": fields.String(required=True, description="CEP do estabelecimento"),
+        "state": fields.String(required=True, description="Estado do estabelecimento"),
+        "city": fields.String(required=True, description="Cidade do estabelecimento"),
+        "address": fields.String(required=True, description="Endereço do estabelecimento"),
+        "complement": fields.String(description="Complemento do endereço")
     },
 )
+
 
 user_model = api.model(
     "User",
@@ -64,7 +57,7 @@ product_model = api.model(
         "is_vegetarian": fields.Boolean(
             required=True, description="Indica se o produto é vegetariano"
         ),
-        "restaurant_id": fields.Integer(required=True, description="ID do restaurante"),
+        "establishment_id": fields.Integer(required=True, description="ID do estabelecimento"),
     },
 )
 
@@ -72,7 +65,7 @@ order_model = api.model(
     "Order",
     {
         "client_id": fields.Integer(required=True, description="ID do cliente"),
-        "restaurant_id": fields.Integer(required=True, description="ID do restaurante"),
+        "establishment_id": fields.Integer(required=True, description="ID do estabelecimento"),
         "products": fields.List(fields.Integer, description="ID dos produtos"),
     },
 )

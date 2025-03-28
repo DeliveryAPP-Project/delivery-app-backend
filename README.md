@@ -1,6 +1,6 @@
 # DeliveryAPP Backend
 
-Este é o backend do projeto DeliveryAPP. Ele é construído usando Flask e fornece uma API RESTful para gerenciar usuários, clientes, restaurantes, produtos e pedidos.
+Este é o backend do projeto DeliveryAPP. Ele é construído usando Flask e fornece uma API RESTful para gerenciar usuários, clientes, estabelecimentos, produtos e pedidos.
 
 ## Estrutura do Projeto
 

@@ -5,7 +5,7 @@ from project.models.client_model import Client
 from project.models.order_model import Order
 from project.models.payment_model import Payment
 from project.models.product_model import Product
-from project.models.restaurant_model import Restaurant
+from project.models.establishment_model import Establishment
 from project.models.user_model import User
 
 ma = Marshmallow()
@@ -34,9 +34,9 @@ class ProductSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
 
 
-class RestaurantSchema(ma.SQLAlchemyAutoSchema):
+class EstablishmentSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Restaurant
+        model = Establishment
         load_instance = True
         include_relationships = True
         exclude = ["associated_products"]
