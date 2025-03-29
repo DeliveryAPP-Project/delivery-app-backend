@@ -1,28 +1,30 @@
 import requests
 
-mock_restaurants = [
+mock_establishments = [
     {
         "id": 1,
-        "name": "Boi na Brasa",
-        "description": "A verdadeira experiência do churrasco brasileiro",
-        "classification": 5.0,
-        "location": "Recife-PE",
-        "url_image_logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-ZyZDWgIWbdLSulbe3TOomyslbzOoDAjVLA&s",
-        "url_image_banner": "https://www.tendaatacado.com.br/dicas/wp-content/uploads/2024/01/dia-do-churrasco-topo.jpg",
-        "telephone": "47999080127",
-        "has_plastic": False
+        "official_name": "Bóde do Nô",
+        "fantasy_name": "Bóde do Nô",
+        "cnpj": "12345678000199",
+        "telephone": "81999998888",
+        "zip_code": "50000-000",
+        "state": "Pernambuco",
+        "city": "Recife",
+        "address": "Rua das Ostras, 123",
+        "complement": "Ao lado do mercado central"
     },
     {
         "id": 2,
-        "name": "Imperador dos camarões",
-        "description": "A experiência gastronômica que traz o melhor do oceano para sua mesa",
-        "classification": 4.5,
-        "location": "Maceió-AL",
-        "url_image_logo": "https://static.vecteezy.com/ti/vetor-gratis/p1/7636169-camarao-logo-icone-design-modelo-gratis-vetor.jpg",
-        "url_image_banner": "https://img.odcdn.com.br/wp-content/uploads/2023/12/Fundo-do-mar-1.jpg",
-        "telephone": "47999366596",
-        "has_plastic": True
-    }
+        "official_name": "Imperador dos Camarões",
+        "fantasy_name": "Imperador dos Camarões",
+        "cnpj": "98765432000188",
+        "telephone": "82988887777",
+        "zip_code": "57000-000",
+        "state": "Alagoas",
+        "city": "Maceió",
+        "address": "Av. Beira Mar, 456",
+        "complement": "Próximo ao shopping"
+    },
 ]
 
 
@@ -38,7 +40,7 @@ mock_products = [
         "has_lactose": True,
         "is_vegan": False,
         "is_vegetarian": False,
-        "restaurant_id": 1
+        "establishment_id": 1
     },
     {
         "id": 2,
@@ -51,7 +53,7 @@ mock_products = [
         "has_lactose": False,
         "is_vegan": False,
         "is_vegetarian": False,
-        "restaurant_id": 1
+        "establishment_id": 1
     },
     {
         "id": 3,
@@ -64,7 +66,7 @@ mock_products = [
         "has_lactose": False,
         "is_vegan": False,
         "is_vegetarian": False,
-        "restaurant_id": 2
+        "establishment_id": 2
     },
     {
         "id": 4,
@@ -77,7 +79,7 @@ mock_products = [
         "has_lactose": False,
         "is_vegan": False,
         "is_vegetarian": False,
-        "restaurant_id": 2
+        "establishment_id": 2
     }
 ]
 
@@ -128,14 +130,14 @@ mock_orders = [
     {
         "id": 1,
         "client_id": 1,
-        "restaurant_id": 1,
+        "establishment_id": 1,
         "products": [1],
         "payment": "Dinheiro"
     },
     {
         "id": 2,
         "client_id": 2,
-        "restaurant_id": 2,
+        "establishment_id": 2,
         "products": [3, 4],
         "payment": "Pix"
     }
@@ -150,9 +152,9 @@ headers = {
 }
 
 
-for restaurant in mock_restaurants:
-    response = requests.post(f"{url}/restaurants/", json=restaurant, headers=headers)
-    print(response.status_code, "restaurant")
+for establishment in mock_establishments:
+    response = requests.post(f"{url}/establishments/", json=establishment, headers=headers)
+    print(response.status_code, "establishment")
 
 for product in mock_products:
     response = requests.post(f"{url}/products/", json=product, headers=headers)

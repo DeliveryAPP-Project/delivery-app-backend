@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from project.models.client_model import Client
-from project.models.restaurant_model import Restaurant
+from project.models.establishment_model import Establishment
 
 from ..ext.database import db
 
@@ -16,7 +16,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
     client_id = db.Column(db.Integer, db.ForeignKey(Client.id))
-    restaurant_id = db.Column(db.Integer, db.ForeignKey(Restaurant.id))
+    establishment_id = db.Column(db.Integer, db.ForeignKey(Establishment.id))
     total_value = db.Column(db.Float)
     status = db.Column(
         db.Enum(
@@ -35,5 +35,5 @@ class Order(db.Model):
         backref=db.backref("orders", lazy="dynamic"),
     )
     client = db.relationship("Client", lazy=True)
-    restaurant = db.relationship("Restaurant", lazy=True)
+    establishment = db.relationship("Establishment", lazy=True)
     payment = None

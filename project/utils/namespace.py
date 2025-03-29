@@ -1,15 +1,23 @@
 from flask_restx import Namespace
 
-restaurant_ns = Namespace(
-    name="Restaurant", description="Gerenciar restaurante", path="/restaurants"
+establishment_ns = Namespace(
+    name="Establishment", description="Gerenciar estabelecimento", path="/establishments"
 )
-user_ns = Namespace(name="User", description="Gerenciar usuário", path="/users")
+user_ns = Namespace(
+    name="User", description="Gerenciar usuário", path="/users"
+)
 product_ns = Namespace(
     name="Product", description="Gerenciar produto", path="/products"
 )
-client_ns = Namespace(name="Client", description="Gerenciar cliente", path="/clients")
-order_ns = Namespace(name="Order", description="Gerenciar pedido", path="/orders")
+client_ns = Namespace(
+    name="Client", description="Gerenciar cliente", path="/clients"
+)
+order_ns = Namespace(
+    name="Order", description="Gerenciar pedido", path="/orders"
+)
 payment_ns = Namespace(
     name="Payment", description="Gerenciar pagamento", path="/payments"
 )
-lead_ns = Namespace(name="Lead", description="Gerenciar lead", path="/leads")
+lead_ns = Namespace(
+    name="Lead", description="Gerenciar lead", path="/leads"
+)
