@@ -3,7 +3,7 @@ Inicialização do app
 """
 
 from dynaconf import FlaskDynaconf
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 
 
@@ -35,7 +35,13 @@ def create_app(**config):
         },
         supports_credentials=True,
     )
+    # 🔹 Intercepta e responde a requisições OPTIONS antes que o navegador bloqueie
+    @app.before_request
+    def handle_preflight():
+        if request.method == "OPTIONS":
+            return "", 200
 
+    
     print(f"Ambiente atual: {app.config.env}")  # type: ignore
     print(f"Banco de dados atual: {app.config.get('SQLALCHEMY_DATABASE_URI')}")
     print("Aplicação inicializada com sucesso!")
