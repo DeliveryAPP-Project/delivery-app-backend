@@ -1,4 +1,5 @@
 from click import echo
+from flask import request
 from flask_restx import Resource
 
 from project.controller.lead_controller import LeadResource
@@ -74,6 +75,8 @@ api.add_namespace(lead_ns)
 class Notification(Resource):
     def post(self):
         echo(api.payload)
+        headers = request.headers
+        echo(f"Request Headers: {headers}")
         return {"content": api.payload}
 
 
