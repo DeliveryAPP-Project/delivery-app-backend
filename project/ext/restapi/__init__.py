@@ -1,7 +1,3 @@
-from click import echo
-from flask import request
-from flask_restx import Resource
-
 from project.controller.lead_controller import LeadResource
 from project.controller.user_controller import UserResource, UserResourceID
 from project.doc_model.doc_models import (
@@ -19,6 +15,7 @@ from project.utils.namespace import (
     client_ns,
     establishment_ns,
     lead_ns,
+    notification_ns,
     order_ns,
     payment_ns,
     product_ns,
@@ -30,6 +27,7 @@ from ...controller.establishment_controller import (
     EstablishmentResource,
     EstablishmentResourceID,
 )
+from ...controller.notification_controller import NotificationResource
 from ...controller.order_controller import OrderResource, OrderResourceID
 from ...controller.payment_controller import PaymentResource, PaymentResourceID
 from ...controller.product_controller import ProductResource, ProductResourceID
@@ -61,6 +59,7 @@ payment_ns.add_resource(PaymentResource, "/")
 payment_ns.add_resource(PaymentResourceID, "/<int:id>")
 
 lead_ns.add_resource(LeadResource, "/")
+notification_ns.add_resource(NotificationResource)
 
 api.add_namespace(establishment_ns)
 api.add_namespace(user_ns)
@@ -69,15 +68,7 @@ api.add_namespace(client_ns)
 api.add_namespace(order_ns)
 api.add_namespace(payment_ns)
 api.add_namespace(lead_ns)
-
-
-@api.route("/notify")
-class Notification(Resource):
-    def post(self):
-        echo(api.payload)
-        headers = request.headers
-        echo(f"Request Headers: {headers}")
-        return {"content": api.payload}
+api.add_namespace(notification_ns)
 
 
 def init_app(app):
@@ -89,3 +80,4 @@ def init_app(app):
     api.add_namespace(order_ns)
     api.add_namespace(payment_ns)
     api.add_namespace(lead_ns)
+    api.add_namespace(notification_ns)
