@@ -1,31 +1,36 @@
+from flask_restx import Resource
+
 from project.controller.lead_controller import LeadResource
 from project.controller.user_controller import UserResource, UserResourceID
 from project.doc_model.doc_models import (
     api,
     bp,
     client_model,
+    establishment_model,
     lead_model,
     order_model,
     payment_model,
     product_model,
-    establishment_model,
     user_model,
 )
 from project.utils.namespace import (
     client_ns,
+    establishment_ns,
     lead_ns,
     order_ns,
     payment_ns,
     product_ns,
-    establishment_ns,
     user_ns,
 )
 
 from ...controller.client_controller import ClientResource, ClientResourceID
+from ...controller.establishment_controller import (
+    EstablishmentResource,
+    EstablishmentResourceID,
+)
 from ...controller.order_controller import OrderResource, OrderResourceID
 from ...controller.payment_controller import PaymentResource, PaymentResourceID
 from ...controller.product_controller import ProductResource, ProductResourceID
-from ...controller.establishment_controller import EstablishmentResource, EstablishmentResourceID
 
 establishment_ns.models["EstablishmentModel"] = establishment_model
 user_ns.models["UserModel"] = user_model
@@ -62,6 +67,12 @@ api.add_namespace(client_ns)
 api.add_namespace(order_ns)
 api.add_namespace(payment_ns)
 api.add_namespace(lead_ns)
+
+
+@api.route("/notify")
+class Notification(Resource):
+    def post(self):
+        return {"content": api.payload}
 
 
 def init_app(app):
