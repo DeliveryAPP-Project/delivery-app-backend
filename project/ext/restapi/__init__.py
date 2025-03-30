@@ -59,7 +59,8 @@ payment_ns.add_resource(PaymentResource, "/")
 payment_ns.add_resource(PaymentResourceID, "/<int:id>")
 
 lead_ns.add_resource(LeadResource, "/")
-notification_ns.add_resource(NotificationResource)
+
+notification_ns.add_resource(NotificationResource, "/")
 
 api.add_namespace(establishment_ns)
 api.add_namespace(user_ns)
