@@ -28,6 +28,11 @@ FLASK_ENV = "staging"
 INCLUDES = ["default"]
 NOTIFICATION_URL = 'https://staging-hamper-backend.onrender.com/api/v1/notification'
 
+[development]
+FLASK_ENV = "development"
+INCLUDES = ["default"]
+NOTIFICATION_URL = 'https://staging-hamper-backend.onrender.com/api/v1/notification'
+
 [production]
 FLASK_ENV = "production"
 INCLUDES = ["default"]
