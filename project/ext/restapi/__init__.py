@@ -1,3 +1,4 @@
+from click import echo
 from flask_restx import Resource
 
 from project.controller.lead_controller import LeadResource
@@ -72,6 +73,7 @@ api.add_namespace(lead_ns)
 @api.route("/notify")
 class Notification(Resource):
     def post(self):
+        echo(api.payload)
         return {"content": api.payload}
 
 
