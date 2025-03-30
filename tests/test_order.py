@@ -57,7 +57,7 @@ def test_create_order_return_201(app_testing):
     client = app_testing.test_client()
     new_order_data = {
         "client_id": 1,
-        "restaurant_id": 1,
+        "establishment_id": 1,
         "products": [1],
     }
     response = client.post("/api/v1/orders/", json=new_order_data)
@@ -69,7 +69,7 @@ def test_create_order_return_400_missing_data(app_testing):
     client = app_testing.test_client()
     new_order_data = {
         "client_id": 1,
-        "restaurant_id": 1,
+        "establishment_id": 1,
         # Missing products and total_value
     }
 
@@ -83,7 +83,7 @@ def test_create_order_return_404_invalid_client(app_testing):
     client = app_testing.test_client()
     new_order_data = {
         "client_id": 999,  # Invalid client ID
-        "restaurant_id": 1,
+        "establishment_id": 1,
         "products": [1],
         "total_value": 100.0,
         "status": "pre_order",
@@ -93,25 +93,25 @@ def test_create_order_return_404_invalid_client(app_testing):
     assert response.json["message"] == "Cliente com ID 999 não encontrado."
 
 
-def test_create_order_return_404_invalid_restaurant(app_testing):
+def test_create_order_return_404_invalid_establishment(app_testing):
     client = app_testing.test_client()
     new_order_data = {
         "client_id": 1,
-        "restaurant_id": 999,  # Invalid restaurant ID
+        "establishment_id": 999,  # Invalid establishment ID
         "products": [1],
         "total_value": 100.0,
         "status": "pre_order",
     }
     response = client.post("/api/v1/orders/", json=new_order_data)
     assert response.status_code == 404
-    assert response.json["message"] == "Restaurante com ID 999 não encontrado."
+    assert response.json["message"] == "Estabelecimento com ID 999 não encontrado."
 
 
 def test_create_order_return_404_invalid_product(app_testing):
     client = app_testing.test_client()
     new_order_data = {
         "client_id": 1,
-        "restaurant_id": 1,
+        "establishment_id": 1,
         "products": [999],  # Invalid product ID
         "total_value": 100.0,
         "status": "pre_order",

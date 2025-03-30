@@ -1,14 +1,14 @@
 from twilio.rest import Client as ClientTwilio
 from project.models.client_model import Client
-from project.models.restaurant_model import Restaurant
+from project.models.establishment_model import Establishment
 from project.models.order_model import Order
 
 
 def send_whatsapp_message(new_order: Order):
-  restaurant_query = Restaurant.query.filter(Restaurant.id == new_order.restaurant_id)
+  establishment_query = Establishment.query.filter(Establishment.id == new_order.establishment_id)
   client_query = Client.query.filter(Client.id == new_order.client_id)
 
-  restaurant = restaurant_query.first()
+  establishment = establishment_query.first()
   client = client_query.first()
 
   products_info = ""
@@ -26,7 +26,7 @@ def send_whatsapp_message(new_order: Order):
           f"Número: {client.client_address_number} \n"
           f"Complemento: {client.client_address_complement} \n"
           f"CEP: {client.client_zip_code}\n "
-          f"\n🍽️  Restaurante: {restaurant.name} \n"
+          f"\n🍽️  Estabelecimento: {establishment.name} \n"
           f"🛒 Produtos: {products_info} \n"
           f"\n💸 Valor Total: R${new_order.total_value} \n"
           f"📅 Data do Pedido: {formatted_time}")

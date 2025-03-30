@@ -10,13 +10,13 @@ from project.models.mock_data import (
     mock_clients,
     mock_orders,
     mock_products,
-    mock_restaurants,
+    mock_establishments,
     mock_users,
 )
 from project.models.order_model import Order
 from project.models.payment_model import Payment
 from project.models.product_model import Product
-from project.models.restaurant_model import Restaurant
+from project.models.establishment_model import Establishment
 from project.models.user_model import User
 
 
@@ -59,22 +59,22 @@ def seed():
     db.session.add(client)
     db.session.commit()
 
-    restaurants = [
-        Restaurant(
+    establishments = [
+        Establishment(
             name="Good Food",
             description="A nice place to eat",
             classification=4.5,
             location="456 Food St",
             telephone="09876543210",
         ),
-        Restaurant(
+        Establishment(
             name="Great Eats",
             description="Delicious meals",
             classification=4.7,
             location="789 Eatery Ave",
             telephone="01234567890",
         ),
-        Restaurant(
+        Establishment(
             name="Tasty Bites",
             description="Yummy snacks",
             classification=4.6,
@@ -82,7 +82,7 @@ def seed():
             telephone="12345098765",
         ),
     ]
-    db.session.add_all(restaurants)
+    db.session.add_all(establishments)
     db.session.commit()
 
     products = [
@@ -91,57 +91,57 @@ def seed():
             value=19.99,
             description="Delicious cheese pizza",
             food_type="Pizza",
-            restaurant_id=restaurants[0].id,
+            establishment_id=establishments[0].id,
         ),
         Product(
             name="Burger",
             value=9.99,
             description="Juicy beef burger",
             food_type="Lanches",
-            restaurant_id=restaurants[0].id,
+            establishment_id=establishments[0].id,
         ),
         Product(
             name="Pasta",
             value=14.99,
             description="Creamy Alfredo pasta",
             food_type="Italiana",
-            restaurant_id=restaurants[1].id,
+            establishment_id=establishments[1].id,
         ),
         Product(
             name="Salad",
             value=7.99,
             description="Fresh garden salad",
             food_type="Brasileira",
-            restaurant_id=restaurants[1].id,
+            establishment_id=establishments[1].id,
         ),
         Product(
             name="Sushi",
             value=24.99,
             description="Assorted sushi platter",
             food_type="Japonesa",
-            restaurant_id=restaurants[2].id,
+            establishment_id=establishments[2].id,
         ),
         Product(
             name="Taco",
             value=4.99,
             description="Spicy chicken taco",
             food_type="Mexicana",
-            restaurant_id=restaurants[2].id,
+            establishment_id=establishments[2].id,
         ),
         Product(
             name="Steak",
             value=29.99,
             description="Grilled ribeye steak",
             food_type="Brasileira",
-            restaurant_id=restaurants[0].id,
+            establishment_id=establishments[0].id,
         ),
         Product(
             name="Ice Cream",
             value=5.99,
             description="Vanilla ice cream",
             food_type="Doces",
-            restaurant_id=restaurants[1].id,
-        ),
+            establishment_id=establishments[1].id,
+        ),establishments
     ]
     db.session.add_all(products)
     db.session.commit()
@@ -149,12 +149,12 @@ def seed():
     orders = [
         Order(
             client_id=client.id,
-            restaurant_id=restaurants[0].id,
+            establishment_id=establishments[0].id,
             total_value=19.99,
         ),
         Order(
             client_id=client.id,
-            restaurant_id=restaurants[1].id,
+            establishment_id=establishments[1].id,
             total_value=59.99,
         ),
     ]

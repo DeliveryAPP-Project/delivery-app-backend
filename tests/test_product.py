@@ -17,7 +17,7 @@ def test_post_product_return_200(app_testing):
         "has_lactose": False,
         "is_vegan": False,
         "is_vegetarian": False,
-        "restaurant_id": 1,
+        "establishment_id": 1,
     }
 
     response = client.post("/api/v1/products/", json=product_data)

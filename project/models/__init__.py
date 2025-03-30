@@ -1,9 +1,9 @@
 from project.models import (
     client_model,
+    establishment_model,
     order_model,
     payment_model,
     product_model,
-    restaurant_model,
     user_model,
 )
 
@@ -17,6 +17,6 @@ __all__ = [
     "order_model",
     "payment_model",
     "product_model",
-    "restaurant_model",
+    "establishment_model",
     "user_model",
 ]

@@ -8,7 +8,7 @@ from project.doc_model.doc_models import (
     order_model,
     payment_model,
     product_model,
-    restaurant_model,
+    establishment_model,
     user_model,
 )
 from project.utils.namespace import (
@@ -17,7 +17,7 @@ from project.utils.namespace import (
     order_ns,
     payment_ns,
     product_ns,
-    restaurant_ns,
+    establishment_ns,
     user_ns,
 )
 
@@ -25,9 +25,9 @@ from ...controller.client_controller import ClientResource, ClientResourceID
 from ...controller.order_controller import OrderResource, OrderResourceID
 from ...controller.payment_controller import PaymentResource, PaymentResourceID
 from ...controller.product_controller import ProductResource, ProductResourceID
-from ...controller.restaurant_controller import RestaurantResource, RestaurantResourceID
+from ...controller.establishment_controller import EstablishmentResource, EstablishmentResourceID
 
-restaurant_ns.models["RestaurantModel"] = restaurant_model
+establishment_ns.models["EstablishmentModel"] = establishment_model
 user_ns.models["UserModel"] = user_model
 product_ns.models["ProductModel"] = product_model
 client_ns.models["ClientModel"] = client_model
@@ -35,8 +35,8 @@ order_ns.models["OrderModel"] = order_model
 payment_ns.models["PaymentModel"] = payment_model
 lead_ns.models["LeadModel"] = lead_model
 
-restaurant_ns.add_resource(RestaurantResource, "/")
-restaurant_ns.add_resource(RestaurantResourceID, "/<int:id>/products")
+establishment_ns.add_resource(EstablishmentResource, "/")
+establishment_ns.add_resource(EstablishmentResourceID, "/<int:id>/products")
 
 user_ns.add_resource(UserResource, "/")
 user_ns.add_resource(UserResourceID, "/<int:id>")
@@ -55,7 +55,7 @@ payment_ns.add_resource(PaymentResourceID, "/<int:id>")
 
 lead_ns.add_resource(LeadResource, "/")
 
-api.add_namespace(restaurant_ns)
+api.add_namespace(establishment_ns)
 api.add_namespace(user_ns)
 api.add_namespace(product_ns)
 api.add_namespace(client_ns)
@@ -66,7 +66,7 @@ api.add_namespace(lead_ns)
 
 def init_app(app):
     app.register_blueprint(bp)
-    api.add_namespace(restaurant_ns)
+    api.add_namespace(establishment_ns)
     api.add_namespace(user_ns)
     api.add_namespace(product_ns)
     api.add_namespace(client_ns)
