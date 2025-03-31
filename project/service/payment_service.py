@@ -1,3 +1,5 @@
+# type: ignore
+
 import logging
 from http import HTTPStatus
 from typing import TypedDict
@@ -30,6 +32,12 @@ class UpdatePaymentDTO(TypedDict):
 
 def get_payment(payment_id: int):
     return payment if (payment := Payment.query.get(payment_id)) else None
+
+
+def get_payment_by_mercadopago_id(id: int):
+    existing_payment = Payment.query.filter_by(mercadopago_id=id).first()
+
+    return existing_payment
 
 
 def get_all_payments():
