@@ -11,7 +11,7 @@ mock_establishments = [
         "state": "Pernambuco",
         "city": "Recife",
         "address": "Rua das Ostras, 123",
-        "complement": "Ao lado do mercado central"
+        "complement": "Ao lado do mercado central",
     },
     {
         "id": 2,
@@ -23,7 +23,7 @@ mock_establishments = [
         "state": "Alagoas",
         "city": "Maceió",
         "address": "Av. Beira Mar, 456",
-        "complement": "Próximo ao shopping"
+        "complement": "Próximo ao shopping",
     },
 ]
 
@@ -40,7 +40,7 @@ mock_products = [
         "has_lactose": True,
         "is_vegan": False,
         "is_vegetarian": False,
-        "establishment_id": 1
+        "establishment_id": 1,
     },
     {
         "id": 2,
@@ -53,7 +53,7 @@ mock_products = [
         "has_lactose": False,
         "is_vegan": False,
         "is_vegetarian": False,
-        "establishment_id": 1
+        "establishment_id": 1,
     },
     {
         "id": 3,
@@ -66,7 +66,7 @@ mock_products = [
         "has_lactose": False,
         "is_vegan": False,
         "is_vegetarian": False,
-        "establishment_id": 2
+        "establishment_id": 2,
     },
     {
         "id": 4,
@@ -79,8 +79,8 @@ mock_products = [
         "has_lactose": False,
         "is_vegan": False,
         "is_vegetarian": False,
-        "establishment_id": 2
-    }
+        "establishment_id": 2,
+    },
 ]
 
 
@@ -89,40 +89,42 @@ mock_users = [
         "id": 1,
         "firstname": "João",
         "lastname": "Pereira",
-        "email": "joaopereira@gmail.com"
+        "email": "joaopereira@gmail.com",
     },
     {
         "id": 2,
         "firstname": "Maria",
         "lastname": "Silva",
-        "email": "mariasilva@hotmail.com"
-    }
+        "email": "mariasilva@hotmail.com",
+    },
 ]
 
 
 mock_clients = [
     {
         "id": 1,
-        "client_name": "João Pereira",
-        "client_cellphone": "47999567032",
-        "client_cpf": "12345678911",
-        "client_address": "Rua das Palmeiras",
-        "client_address_number": 67,
-        "client_address_complement": "Casa verde, ao lado de uma padaria",
-        "client_address_neighborhood": "Bela Vista",
-        "client_zip_code": "12345678"
+        "name": "João Pereira",
+        "cellphone": "47999567032",
+        "cpf": "12345678911",
+        "address": "Rua das Palmeiras",
+        "address_number": 67,
+        "address_complement": "Casa verde, ao lado de uma padaria",
+        "address_neighborhood": "Bela Vista",
+        "zip_code": "12345678",
+        "email": "joaopereira@gmail.com",
     },
     {
         "id": 2,
-        "client_name": "Maria Silva",
-        "client_cellphone": "41996314578",
-        "client_cpf": "12345678910",
-        "client_address": "Rua Teodoro Sampaio",
-        "client_address_number": 251,
-        "client_address_complement": "Casa azul, em frente ao mercado",
-        "client_address_neighborhood": "Bom Fim",
-        "client_zip_code": "98765432"
-    }
+        "name": "Maria Silva",
+        "cellphone": "41996314578",
+        "cpf": "12345678910",
+        "address": "Rua Teodoro Sampaio",
+        "address_number": 251,
+        "address_complement": "Casa azul, em frente ao mercado",
+        "address_neighborhood": "Bom Fim",
+        "zip_code": "98765432",
+        "email": "mariasilva@hotmail.com",
+    },
 ]
 
 
@@ -132,28 +134,28 @@ mock_orders = [
         "client_id": 1,
         "establishment_id": 1,
         "products": [1],
-        "payment": "Dinheiro"
+        "payment": "Dinheiro",
     },
     {
         "id": 2,
         "client_id": 2,
         "establishment_id": 2,
         "products": [3, 4],
-        "payment": "Pix"
-    }
+        "payment": "Pix",
+    },
 ]
 
 
-url = 'http://127.0.0.1:5000/api/v1/'
+url = "http://127.0.0.1:5000/api/v1/"
 
 
-headers = {
-    'Content-Type': 'application/json'
-}
+headers = {"Content-Type": "application/json"}
 
 
 for establishment in mock_establishments:
-    response = requests.post(f"{url}/establishments/", json=establishment, headers=headers)
+    response = requests.post(
+        f"{url}/establishments/", json=establishment, headers=headers
+    )
     print(response.status_code, "establishment")
 
 for product in mock_products:
