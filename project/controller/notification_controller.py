@@ -14,21 +14,42 @@ from ..ext.payment_gateways.mercadopago.payment import get_payment as get_mp_pay
 payment_schema = PaymentSchema(many=False)
 
 
-# {
-#     "action": "payment.updated",
-#     "api_version": "v1",
-#     "data": {"id": "1334092911"},
-#     "date_created": "2021-11-01T02:02:02Z",
-#     "id": "1334092911",
-#     "live_mode": false,
-#     "type": "payment",
-#     "user_id": 221150409,
-# }
-
-
 class NotificationResource(Resource):
     @api.expect(notification_model)
+    @api.response(200, "Pagamento atualizado com sucesso")
+    @api.response(400, "Requisição inválida ou erro interno")
+    @api.response(404, "Pagamento não encontrado")
+    @api.doc(
+        description="""
+        Endpoint para processar notificações do MercadoPago sobre atualizações de pagamento.
+
+        Recebe um payload no formato específico do MercadoPago e atualiza o status do pagamento correspondente.
+        """,
+        params={},
+        body=notification_model,
+    )
     def post(self):
+        """
+        Processa notificações de atualização de pagamento.
+
+        Exemplo de requisição (JSON):
+        {
+            "action": "payment.updated",
+            "api_version": "v1",
+            "data": {"id": "12345"},
+            "date_created": "2023-01-01T00:00:00Z",
+            "id": "12345",
+            "live_mode": false,
+            "type": "payment",
+            "user_id": 123456
+        }
+
+        Respostas:
+        - 200: Pagamento atualizado (ex: {"message": "Pagamento atualizado com sucesso"}),
+        - 400: Erro na requisição (ex: JSON inválido, dados incorretos),
+        - 404: Pagamento não encontrado no sistema
+        """
+
         try:
             if not request.json:
                 return {"error": "Invalid request json"}, 400
