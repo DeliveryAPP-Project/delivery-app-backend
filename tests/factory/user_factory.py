@@ -1,10 +1,9 @@
 import factory
-from factory.alchemy import SQLAlchemyModelFactory
 from project.ext.database import db
 from project.models.user_model import User
 
 
-class UserFactory(SQLAlchemyModelFactory):
+class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = User
         sqlalchemy_session = db.session

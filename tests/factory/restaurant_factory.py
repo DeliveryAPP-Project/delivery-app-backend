@@ -1,12 +1,11 @@
 # from datetime import time
 import factory
-from factory.alchemy import SQLAlchemyModelFactory
 from project.ext.database import db
 from project.models.restaurant_model import Restaurant
 from tests.factory.product_factory import ProductFactory
 
 
-class RestaurantFactory(SQLAlchemyModelFactory):
+class RestaurantFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Restaurant
         sqlalchemy_session = db.session
