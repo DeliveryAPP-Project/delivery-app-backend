@@ -6,11 +6,6 @@ import pytest
 from project import create_app_wsgi
 from project.ext.database import db
 
-from project.models.user_model import User
-from project.models.restaurant_model import Restaurant
-from project.models.product_model import Product
-from project.models.client_model import Client
-from project.models.order_model import Order
 from tests.factory.client_factory import ClientFactory
 from tests.factory.order_factory import OrderFactory
 from tests.factory.product_factory import ProductFactory
@@ -37,32 +32,30 @@ def fake_redis():
 
 @pytest.fixture
 def user_factory():
-    for user_factory in UserFactory:
-        user = User(**user_factory)
-        db.session.add(user)
+    users = UserFactory.create_batch(3)
+    db.session.commit()
+    return users
 
 @pytest.fixture
 def restaurant_factory():
-    for restaurant_factory in RestaurantFactory:
-        restaurant = Restaurant(**restaurant_factory)
-        db.session.add(restaurant)
+    restaurants = RestaurantFactory.create_batch(3)
+    db.session.commit()
+    return restaurants
 
 @pytest.fixture
 def client_factory():
-    for client_factory in ClientFactory:
-        client = Client(**client_factory)
-        db.session.add(client)
+    clients = ClientFactory.create_batch(3)
+    db.session.commit()
+    return clients
 
 @pytest.fixture
 def product_factory():
-    for product_data in ProductFactory:
-        product = Product(**product_data)
-        db.session.add(product)
+    products = ProductFactory.create_batch(5)
+    db.session.commit()
+    return products
 
 @pytest.fixture
 def order_factory():
-    for order_factory in OrderFactory:
-        order = Order(**order_factory)
-        db.session.add(order)
-        
-
+    orders = OrderFactory.create_batch(3)
+    db.session.commit()
+    return orders
