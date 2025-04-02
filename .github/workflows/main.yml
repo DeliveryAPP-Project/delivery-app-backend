@@ -21,6 +21,6 @@ jobs:
             git pull
             cd ..
             docker-compose up --build -d
-            cd delivery-app-backend/
-            flask db init
-            flask db migrate
+            docker container exec -it backend sh -c "flask db init && flask db migrate"
+
+           
