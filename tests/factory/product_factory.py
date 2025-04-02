@@ -1,11 +1,9 @@
 import factory
-from factory.alchemy import SQLAlchemyModelFactory
 from project.ext.database import db
 from project.models.product_model import Product
-from tests.factory.restaurant_factory import RestaurantFactory
 
 
-class ProductFactory(SQLAlchemyModelFactory):
+class ProductFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Product
         sqlalchemy_session = db.session
@@ -21,5 +19,6 @@ class ProductFactory(SQLAlchemyModelFactory):
     is_vegan = factory.Sequence(lambda n: n % 2 == 0)
     is_vegetarian = factory.Sequence(lambda n: n % 2 == 0)
     # TODO: o relacionamento com o restaurante
-    restaurant = factory.SubFactory(RestaurantFactory)
+    # restaurant = factory.SubFactory(RestaurantFactory)
+    restaurant = factory.SubFactory('tests.factory.restaurant_factory.RestaurantFactory')
     restaurant_id = factory.LazyAttribute(lambda obj: obj.restaurant.id)

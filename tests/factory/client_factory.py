@@ -1,12 +1,11 @@
 import factory
-from factory.alchemy import SQLAlchemyModelFactory
 
 
 from project.models.client_model import Client
 from project.ext.database import db
 
 
-class ClientFactory(SQLAlchemyModelFactory):
+class ClientFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Client
         sqlalchemy_session = db.session

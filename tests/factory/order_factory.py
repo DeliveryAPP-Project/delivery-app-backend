@@ -1,5 +1,4 @@
 import factory
-from factory.alchemy import SQLAlchemyModelFactory
 from datetime import datetime
 
 
@@ -10,7 +9,7 @@ from tests.factory.product_factory import ProductFactory
 from tests.factory.restaurant_factory import RestaurantFactory
 
 
-class OrderFactory(SQLAlchemyModelFactory):
+class OrderFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Order
         sqlalchemy_session = db.session
