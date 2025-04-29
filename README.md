@@ -32,8 +32,44 @@ source venv/bin/activate  # No Windows use `venv\Scripts\activate`
 
 3. Instale as dependências:
 
+#### Caso você não tenha o Poetry instalado, siga esses passos:
+
+#### - Instale o Poetry
+
+No Windows:
 ```bash
-pip install -r requirements.txt
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+```
+No Linux/macOS:
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+#### - Verifique se foi instalado corretamente:
+```bash
+python --version
+```
+#### - Caso de algum erro no Path, rode: 
+```bash
+$env:Path += ";$env:APPDATA\Python\Scripts;$env:APPDATA\Poetry\bin"
+```
+#### - Abra o Painel de Controle e vá para Sistema > Configurações Avançadas do Sistema. Adicione os seguintes caminhos:
+
+- C:\Users\SEU_USUARIO\AppData\Roaming\Python\Scripts
+
+- C:\Users\SEU_USUARIO\AppData\Roaming\Poetry\bin
+
+#### - Verifique se foi instalado corretamente:
+```bash
+python --version
+```
+#### - Feito isso, instale as dependências:
+```bash
+poetry install
+```
+
+#### Caso queira instalar apenas uma dependência específica:
+```bash
+poetry add nome-do-pacote
 ```
 
 4. Configure as variáveis de ambiente:
@@ -50,13 +86,13 @@ docker compose up
 flask run
 ```
 
-9. Inicialize o banco de dados:
+6. Inicialize o banco de dados:
 
 ```bash
 flask db init
 ```
 
-10. Migrações
+7. Migrações
 
 ```bash
 # para criar uma nova migração
