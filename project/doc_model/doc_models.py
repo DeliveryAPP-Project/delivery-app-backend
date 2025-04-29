@@ -15,15 +15,23 @@ establishment_model = api.model(
     "Establishment",
     {
         "id": fields.Integer(description="ID do estabelecimento"),
-        "official_name": fields.String(required=True, description="Nome oficial do estabelecimento"),
-        "fantasy_name": fields.String(required=True, description="Nome fantasia do estabelecimento"),
+        "official_name": fields.String(
+            required=True, description="Nome oficial do estabelecimento"
+        ),
+        "fantasy_name": fields.String(
+            required=True, description="Nome fantasia do estabelecimento"
+        ),
         "cnpj": fields.String(required=True, description="CNPJ do estabelecimento"),
-        "telephone": fields.String(required=True, description="Telefone do estabelecimento"),
+        "telephone": fields.String(
+            required=True, description="Telefone do estabelecimento"
+        ),
         "zip_code": fields.String(required=True, description="CEP do estabelecimento"),
         "state": fields.String(required=True, description="Estado do estabelecimento"),
         "city": fields.String(required=True, description="Cidade do estabelecimento"),
-        "address": fields.String(required=True, description="Endereço do estabelecimento"),
-        "complement": fields.String(description="Complemento do endereço")
+        "address": fields.String(
+            required=True, description="Endereço do estabelecimento"
+        ),
+        "complement": fields.String(description="Complemento do endereço"),
     },
 )
 
@@ -57,7 +65,9 @@ product_model = api.model(
         "is_vegetarian": fields.Boolean(
             required=True, description="Indica se o produto é vegetariano"
         ),
-        "establishment_id": fields.Integer(required=True, description="ID do estabelecimento"),
+        "establishment_id": fields.Integer(
+            required=True, description="ID do estabelecimento"
+        ),
     },
 )
 
@@ -65,7 +75,9 @@ order_model = api.model(
     "Order",
     {
         "client_id": fields.Integer(required=True, description="ID do cliente"),
-        "establishment_id": fields.Integer(required=True, description="ID do estabelecimento"),
+        "establishment_id": fields.Integer(
+            required=True, description="ID do estabelecimento"
+        ),
         "products": fields.List(fields.Integer, description="ID dos produtos"),
     },
 )
@@ -100,5 +112,22 @@ payment_model = api.model(
             required=True, description="Tipo de pagamento Ex: Pix ou Dinheiro"
         ),
         "order_id": fields.Integer(required=True, description="ID do pedido"),
+    },
+)
+notification_model = api.model(
+    "Notification",
+    {
+        "action": fields.String(required=True, description="Ação da notificação"),
+        "api_version": fields.String(required=True, description="Versão da API"),
+        "data": fields.Raw(required=True, description="Dados da notificação"),
+        "date_created": fields.String(
+            required=True, description="Data de criação da notificação"
+        ),
+        "id": fields.String(required=True, description="ID da notificação"),
+        "live_mode": fields.Boolean(
+            required=True, description="Indica se está em modo live"
+        ),
+        "type": fields.String(required=True, description="Tipo da notificação"),
+        "user_id": fields.Integer(required=True, description="ID do usuário"),
     },
 )

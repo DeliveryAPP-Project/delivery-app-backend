@@ -1,17 +1,4 @@
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: backend
-    ports:
-      - "5000:5000"
-    environment:
-      - FLASK_ENV=staging
-      - FLASK_APP=project
-      - PYTHONPATH=./
-    volumes:
-      - .:/app
   postgres:
     image: postgres:14
     container_name: postgres-container
@@ -29,6 +16,5 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-
 volumes:
   pgdata:

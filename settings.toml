@@ -19,12 +19,17 @@ FLASK_ENV = "local"
 INCLUDES = ["default"]
 TEMPLATES_AUTO_RELOAD = true
 DEBUG = true
-SQLALCHEMY_DATABASE_URI = "postgresql://myuser:mypassword1@localhost:5432/mydatabase"
-REDIS_URL = "redis://localhost:6379"
+SQLALCHEMY_DATABASE_URI = "postgresql://myuser:mypassword1@postgres:5432/mydatabase"
+REDIS_URL = "redis://redis:6379"
 NOTIFICATION_URL = ''
 
 [staging]
 FLASK_ENV = "staging"
+INCLUDES = ["default"]
+NOTIFICATION_URL = 'https://staging-hamper-backend.onrender.com/api/v1/notification'
+
+[development]
+FLASK_ENV = "development"
 INCLUDES = ["default"]
 NOTIFICATION_URL = 'https://staging-hamper-backend.onrender.com/api/v1/notification'
 
