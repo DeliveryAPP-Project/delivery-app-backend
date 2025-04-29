@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 9255441d2a22
+Revision ID: fbcd61f123d1
 Revises: 
-Create Date: 2025-03-28 14:45:25.748190
+Create Date: 2025-03-31 16:33:11.681985
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9255441d2a22'
+revision = 'fbcd61f123d1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,8 +36,8 @@ def upgrade():
 
     op.create_table('establishment',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('official_name', sa.String(length=40), nullable=False),
-    sa.Column('fantasy_name', sa.String(length=40), nullable=False),
+    sa.Column('official_name', sa.String(length=45), nullable=False),
+    sa.Column('fantasy_name', sa.String(length=45), nullable=False),
     sa.Column('cnpj', sa.String(length=14), nullable=False),
     sa.Column('telephone', sa.String(length=11), nullable=False),
     sa.Column('zip_code', sa.String(length=9), nullable=False),
@@ -48,7 +48,8 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cnpj'),
     sa.UniqueConstraint('fantasy_name'),
-    sa.UniqueConstraint('official_name')
+    sa.UniqueConstraint('official_name'),
+    sa.UniqueConstraint('telephone')
     )
     op.create_table('lead',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -108,7 +109,7 @@ def upgrade():
     sa.Column('qr_code', sa.String(), nullable=True),
     sa.Column('qr_code_base64', sa.Text(), nullable=True),
     sa.Column('ticket_url', sa.String(), nullable=True),
-    sa.Column('mercadopago_id', sa.String(), nullable=True),
+    sa.Column('mercadopago_id', sa.Integer(), nullable=True),
     sa.Column('date_of_expiration', sa.DateTime(), nullable=True),
     sa.Column('order_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['order_id'], ['order.id'], ),

@@ -4,28 +4,33 @@ from project.doc_model.doc_models import (
     api,
     bp,
     client_model,
+    establishment_model,
     lead_model,
     order_model,
     payment_model,
     product_model,
-    establishment_model,
     user_model,
 )
 from project.utils.namespace import (
     client_ns,
+    establishment_ns,
     lead_ns,
+    notification_ns,
     order_ns,
     payment_ns,
     product_ns,
-    establishment_ns,
     user_ns,
 )
 
 from ...controller.client_controller import ClientResource, ClientResourceID
+from ...controller.establishment_controller import (
+    EstablishmentResource,
+    EstablishmentResourceID,
+)
+from ...controller.notification_controller import NotificationResource
 from ...controller.order_controller import OrderResource, OrderResourceID
 from ...controller.payment_controller import PaymentResource, PaymentResourceID
 from ...controller.product_controller import ProductResource, ProductResourceID
-from ...controller.establishment_controller import EstablishmentResource, EstablishmentResourceID
 
 establishment_ns.models["EstablishmentModel"] = establishment_model
 user_ns.models["UserModel"] = user_model
@@ -55,6 +60,8 @@ payment_ns.add_resource(PaymentResourceID, "/<int:id>")
 
 lead_ns.add_resource(LeadResource, "/")
 
+notification_ns.add_resource(NotificationResource, "/")
+
 api.add_namespace(establishment_ns)
 api.add_namespace(user_ns)
 api.add_namespace(product_ns)
@@ -62,6 +69,7 @@ api.add_namespace(client_ns)
 api.add_namespace(order_ns)
 api.add_namespace(payment_ns)
 api.add_namespace(lead_ns)
+api.add_namespace(notification_ns)
 
 
 def init_app(app):
@@ -73,3 +81,4 @@ def init_app(app):
     api.add_namespace(order_ns)
     api.add_namespace(payment_ns)
     api.add_namespace(lead_ns)
+    api.add_namespace(notification_ns)
